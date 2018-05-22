@@ -15,11 +15,11 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency "jekyll", "~> 3.0"
-  spec.add_dependency "rinku", "~> 1.7.0"
+  spec.add_dependency 'jekyll', '~> 3.0'
+  spec.add_dependency 'rinku', '~> 1.7.0'
 
-  spec.add_development_dependency "bundler", "~> 1.6"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "shoulda"
-  spec.add_development_dependency "mocha"
+  spec.add_development_dependency 'bundler', '~> 1.6'
+  spec.add_development_dependency 'rake', '~> 12.0'
+  spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'rubocop', '0.55'
 end

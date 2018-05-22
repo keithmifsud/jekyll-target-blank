@@ -23,14 +23,14 @@ module Jekyll
     private
 
     def link(page)
-      page.content = Rinku.auto_link(page.content, :urls, 'class="external-link"') do |external_link|
+      page.content = Rinku.auto_link(page.content, :urls, 'target="_blank"') do |external_link|
         external_link
       end
-      url_encode_external_links(page.content)
+      #url_encode_external_links(page.content)
     end
 
     def url_encode_external_links(content)
-      content.gsub!(/.. (#{external_links.join('|')})/) do |m|
+      content.gsub!(/http:(#{external_links.join('|')})/) do |m|
         m[ ] = ERB::Util.url_encode( )
         m
       end
