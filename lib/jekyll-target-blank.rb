@@ -16,8 +16,8 @@ module Jekyll
 
     def generate(site)
       @site = site
-      site.pages.each { |page| process page if page.html? }
-      site.posts.docs.each { |page| process page }
+      site.pages.each {|page| process page if page.html?}
+      site.posts.docs.each {|page| process page}
     end
 
     private
@@ -47,9 +47,17 @@ module Jekyll
       page.content = content.to_html
     end
 
+    def process_markdown_links(page)
+      @site.config['kramdown'] = @site.config['kramdown'].dup
+        #converted = Jekyll::Renderer.new(@site, page, @site.site_payload).convert(page.content)
+      converted = page.process
+      converted.content
+    end
+
+
     def url_encode_external_links(content)
       content.gsub!(/http:(#{external_links.join('|')})/) do |m|
-        m[ ] = ERB::Util.url_encode( )
+        m[] = ERB::Util.url_encode()
         m
       end
     end

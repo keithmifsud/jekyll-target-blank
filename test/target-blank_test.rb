@@ -12,8 +12,6 @@ class Jekyll::TargetBlankTest < Minitest::Test
       @external_link = '<div><a href="https://google.com" target="_blank">https://google.com</a></div>'
     end
 
-
-
     should 'add target attribute to text link' do
       @target_blank.instance_variable_set(:@site, @site)
       @target_blank.send(:link, @page)
@@ -46,6 +44,21 @@ class Jekyll::TargetBlankTest < Minitest::Test
       assert_equal expected, @page.content
     end
 
+    should 'add target attribute to markdown link' do
+      @page.instance_variable_set(:@content, '<div><p>An interesting [article](https://keith-mifsud.me/the-fearless-natural-approach-to-tdd)</p></div>')
+      @site.pages << @page
+      @target_blank.instance_variable_set(:@site, @site)
+      @target_blank.send(:process_markdown_links, @page)
+
+      expected = '<div><p>An interesting <a href="https://keith-mifsud.me/the-fearless-natural-approach-to-tdd" target="_blank">article</a></p></div>'
+
+      assert_equal expected, @page.content
+    end
+
+
+    # same as above to multiple
+    #
+    # #should not process md links if the file is not in md.
 
 
     # should 'add target blank attribute to markdown link' do
@@ -63,6 +76,17 @@ class Jekyll::TargetBlankTest < Minitest::Test
     #
     # code blocks
     #
-    # # all mixed
+    # # all mixed - using process and also a stub.
+    #
+    # REFACTOR
+    #
+    # README
+    #
+    # ADD GH TESTS AND PUBLISH
+    #
+    # INTEGRATION TESTS? as a gem or a plugin or both.
+    # ### blog collection?
+    #
+    # TASKS FOR WEBSITE / POST
   end
 end
