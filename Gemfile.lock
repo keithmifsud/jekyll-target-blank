@@ -3,6 +3,7 @@ PATH
   specs:
     jekyll-target-blank (0.1.0)
       jekyll (~> 3.0)
+      nokogiri
       rinku (~> 1.7.0)
 
 GEM
@@ -52,9 +53,12 @@ GEM
       ruby_dep (~> 1.2)
     mercenary (0.3.6)
     metaclass (0.0.4)
+    mini_portile2 (2.3.0)
     minitest (5.11.3)
     mocha (1.5.0)
       metaclass (~> 0.0.1)
+    nokogiri (1.8.2-x64-mingw32)
+      mini_portile2 (~> 2.3.0)
     parallel (1.12.1)
     parser (2.5.1.0)
       ast (~> 2.4.0)

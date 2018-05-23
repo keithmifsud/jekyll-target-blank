@@ -1,5 +1,6 @@
 require 'jekyll'
 require 'rinku'
+require 'nokogiri'
 
 module Jekyll
   class TargetBlank < Jekyll::Generator
@@ -15,10 +16,16 @@ module Jekyll
 
     def generate(site)
       @site = site
-      site.pages.each { |page| link page if page.html? }
-      site.posts.docs.each { |page| link page }
+      site.pages.each { |page| process page if page.html? }
+      site.posts.docs.each { |page| process page }
     end
 
+    private
+
+    def process(page)
+      link(page)
+      process_anchor_tags(page)
+    end
 
     private
 
@@ -27,6 +34,17 @@ module Jekyll
         external_link
       end
       #url_encode_external_links(page.content)
+    end
+
+    private
+
+    def process_anchor_tags(page)
+      content = Nokogiri::HTML::DocumentFragment.parse(page.content)
+      anchors = content.css('a[href]')
+      anchors.each do |item|
+        item['target'] = '_blank'
+      end
+      page.content = content.to_html
     end
 
     def url_encode_external_links(content)
