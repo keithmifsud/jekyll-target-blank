@@ -60,7 +60,6 @@ RSpec.describe(Jekyll::TargetBlank) do
   # should work the same with collections / docs.
   # mix with internal and external
   #
-  # remove rinku if no longer needed.
 
 
 end
