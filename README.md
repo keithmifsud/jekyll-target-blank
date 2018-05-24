@@ -16,3 +16,4 @@ tbc...
 
 - [ ] Deploy to rubygems as version 1.0
  
+- [ ] Add licence and copyright info to code, readme and as a file.
