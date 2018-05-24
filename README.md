@@ -1,6 +1,6 @@
 # Jekyll Target Blank
 
-Adds a `target="_blank"` to __external__ markdown links in Jeyll Posts and Collections.
+Adds a `target="_blank"` to __external__ links in Jekyll Content.
 
 ## Installation
 

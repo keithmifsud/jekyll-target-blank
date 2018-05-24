@@ -1,4 +1,5 @@
 ---
+layout: default
 title: Post with multiple external markdown links
 ---
 
