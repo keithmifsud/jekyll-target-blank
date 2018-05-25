@@ -78,10 +78,13 @@ RSpec.describe(Jekyll::TargetBlank) do
 ')
   end
 
+  it 'should process external links in pages' do
+    expect(site.pages.first.output).to include('<p>This is a valid <a href="https://google.com" target="_blank">link</a>.</p>')
+  end
 
-  # should work the same with collections / docs.
-  #
-  # pages?
+
+
+
   #
   # layouts should not be touched.
   #

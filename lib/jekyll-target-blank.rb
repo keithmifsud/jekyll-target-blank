@@ -12,6 +12,11 @@ module Jekyll
         @site_url = content.site.config['url']
         process_anchor_tags(content)
       end
+      
+      def processable?(doc)
+        (doc.is_a?(Jekyll::Page) || doc.write?) &&
+          doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
+      end
 
       private
 
@@ -25,8 +30,6 @@ module Jekyll
         end
         page.output = content.to_html
       end
-
-      private
 
       def external?(link)
         if link =~ /\A#{URI.regexp(['http', 'https'])}\z/
@@ -60,6 +63,6 @@ module Jekyll
   end
 end
 
-Jekyll::Hooks.register %i[pages, documents], :post_render do |doc|
-  Jekyll::TargetBlank.process(doc) # if Jekyll::TargetBlank.external?(doc)
+Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
+  Jekyll::TargetBlank.process(doc) if Jekyll::TargetBlank.processable?(doc)
 end
