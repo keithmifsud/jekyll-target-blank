@@ -33,6 +33,8 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   let(:text_file) { find_by_title(site.collections['docs'].docs, 'Text file') }
 
+  let(:post_with_code_block) {find_by_title(posts, 'Post with code block')}
+
   # define common wrappers.
   def para(content)
     "<p>#{content}</p>"
@@ -89,15 +91,12 @@ RSpec.describe(Jekyll::TargetBlank) do
     expect(text_file.output).to eq('Valid [link](https://google.com).')
   end
 
+  it 'should not process link in code block but process link outside of block' do
+    expect(post_with_code_block.output).to include("<span class=\"s1\">'https://google.com'</span>")
 
+    expect(post_with_code_block.output).not_to include("<span class=\"s1\"><a href=\"https://google.com\" target=\"_blank\">https://google.com</a></span>")
 
-  #
-  # non convertible files such as .txt
-  #
-  # what about code blocks?
-  #
-  # mix with internal and external
-  #
-
-
+    expect(post_with_code_block.output).to include('<p>Valid <a href="https://google.com" target="_blank">link</a></p>
+')
+  end
 end
