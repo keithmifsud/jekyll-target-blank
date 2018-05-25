@@ -29,7 +29,9 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   let(:post_with_plain_text_link) { find_by_title(posts, 'Post with plain text link') }
 
-  let(:document_with_a_processable_link) { find_by_title(site.collections["docs"].docs, 'Document with a processable link') }
+  let(:document_with_a_processable_link) { find_by_title(site.collections['docs'].docs, 'Document with a processable link') }
+
+  let(:text_file) { find_by_title(site.collections['docs'].docs, 'Text file') }
 
   # define common wrappers.
   def para(content)
@@ -83,10 +85,12 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
 
+  it 'should not process links in non html files' do
+    expect(text_file.output).to eq('Valid [link](https://google.com).')
+  end
 
 
-  #
-  # layouts should not be touched.
+
   #
   # non convertible files such as .txt
   #

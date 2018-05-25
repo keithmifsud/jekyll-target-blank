@@ -1,0 +1,5 @@
+---
+title: Text file
+---
+
+Valid [link](https://google.com).
