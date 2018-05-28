@@ -12,6 +12,10 @@ tbc...
 
 - [ ] Remove `rinku` dependency and all references.
 
+- [ ] Remove minitest and deps.
+
+- [ ] Add comments.
+
 - [ ] Run integration tests in an isolated jekyll install.
 
 - [ ] Deploy to rubygems as version 1.0

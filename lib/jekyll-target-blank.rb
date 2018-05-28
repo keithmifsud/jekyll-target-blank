@@ -6,16 +6,30 @@ require 'uri'
 module Jekyll
   class TargetBlank
 
+    BODY_START_TAG = "<body"
+
+    OPENING_BODY_TAG_REGEX = %r!<body(.*)>\s*!
     class << self
 
       def process(content)
         @site_url = content.site.config['url']
-        process_anchor_tags(content)
+
+        return unless content.output.include?("<a")
+        if content.output.include? BODY_START_TAG
+          head, opener, tail = content.output.partition(OPENING_BODY_TAG_REGEX)
+          body_content, *rest = tail.partition("</body>")
+
+          processed_markup = process_anchor_tags(content)
+          content.output = String.new(head) << opener << processed_markup << rest.join
+
+        else
+          content.output = process_anchor_tags(content)
+        end
       end
-      
+
       def processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
-          doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
+            doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
       end
 
       private
@@ -28,7 +42,7 @@ module Jekyll
             item['target'] = '_blank'
           end
         end
-        page.output = content.to_html
+        content.to_html
       end
 
       def external?(link)
@@ -36,29 +50,6 @@ module Jekyll
           URI.parse(link).host != URI.parse(@site_url).host
         end
       end
-
-=begin
-      def link_from_text(page)
-        page.output = Rinku.auto_link(page.content, :urls) do |external_link|
-          external_link
-        end
-        @page = page
-      end
-=end
-  
-
-  
-=begin
-      def process_markdown_links(page)
-        @site.config['kramdown'] = @site.config['kramdown'].dup
-          #converted = Jekyll::Renderer.new(@site, page, @site.site_payload).convert(page.content)
-        converted = page.process
-        converted.content
-      end
-=end
-  
-  
-      
     end
   end
 end

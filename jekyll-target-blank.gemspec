@@ -1,10 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'jekyll-target-blank/version'
 
 Gem::Specification.new do |spec|
   spec.name = 'jekyll-target-blank'
-  spec.version = '0.1.0'
+  spec.version = JekyllTargetBlank::VERSION
   spec.authors = ['Keith Mifsud']
   spec.email = ['mifsud.k@gmail.com']
   spec.summary = 'Target Blank automatically changes the external links to open in a new browser.'
@@ -14,6 +15,7 @@ Gem::Specification.new do |spec|
   spec.files = `git ls-files -z`.split("\x0")
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
+  spec.required_ruby_version = '>= 2.3.0'
 
   spec.add_dependency 'jekyll', '~> 3.0'
   spec.add_dependency 'nokogiri'
