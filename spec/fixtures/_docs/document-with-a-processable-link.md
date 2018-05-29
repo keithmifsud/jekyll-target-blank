@@ -1,4 +1,5 @@
 ---
+layout: default
 title: Document with a processable link
 ---
 
