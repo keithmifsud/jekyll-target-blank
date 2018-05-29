@@ -21,4 +21,6 @@ tbc...
 
 - [ ] Update THIS
 
+- [ ] remove old version from rubygems.
+
 - [ ] Submit to Jekyll's plugin list.
