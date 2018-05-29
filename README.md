@@ -8,9 +8,6 @@ tbc...
 
 ## Dev Tasks - temp
 
-
-- [ ] Remove minitest and deps.
-
 - [ ] Add comments.
 
 - [ ] Run integration tests in an isolated jekyll install.
@@ -21,6 +18,6 @@ tbc...
 
 - [ ] Update THIS
 
-- [ ] remove old version from rubygems.
+- [ ] remove old version from rubygems add ignore from local.
 
 - [ ] Submit to Jekyll's plugin list.

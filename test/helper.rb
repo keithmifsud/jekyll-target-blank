@@ -1,5 +1,0 @@
-require 'minitest/autorun'
-require 'minitest/unit'
-require 'shoulda'
-require 'mocha/minitest'
-require 'jekyll-target-blank'
