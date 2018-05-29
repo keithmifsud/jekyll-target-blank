@@ -130,14 +130,6 @@ RSpec.describe(Jekyll::TargetBlank) do
     expect(post_with_external_markdown_link.output).to eq(post_with_layout_result)
   end
 
-=begin
-  it 'should not break inline styles' do
-    expect(site.pages.first.output).to include('<style>body{background-color: red;}</style>')
-
-    expect(site.pages.first.output).to_not include('<link inline rel="stylesheet" href="/assets/style.css">')
-  end
-=end
-
   private
 
   def post_with_layout_result
@@ -149,7 +141,6 @@ RSpec.describe(Jekyll::TargetBlank) do
     <title>Post with external markdown link</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="/css/screen.css">
-    <link inline rel="stylesheet" href="/assets/style.css">
 </head>
 <body class="wrap">
     <div>Layout content started.</div>

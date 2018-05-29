@@ -16,8 +16,10 @@ tbc...
  
 - [ ] Add licence and copyright info to code, readme and as a file.
 
-- [ ] Update THIS
-
+- [ ] Update THIS, include;
+    -[ ] Include docs
+    - [ ] Include contrib notes
+    
 - [ ] remove old version from rubygems add ignore from local.
 
 - [ ] Submit to Jekyll's plugin list.

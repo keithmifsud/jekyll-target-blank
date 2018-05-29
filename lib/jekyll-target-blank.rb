@@ -1,15 +1,19 @@
-require 'jekyll'
-require 'nokogiri'
-require 'uri'
+# frozen_string_literal: true
+
+require "jekyll"
+require "nokogiri"
+require "uri"
 
 module Jekyll
   class TargetBlank
-
-    BODY_START_TAG = "<body"
-
+    BODY_START_TAG = "<body".freeze
     OPENING_BODY_TAG_REGEX = %r!<body(.*)>\s*!
+
     class << self
 
+
+      # Public: Processes the content and updated the external links
+      # by adding the target="_blank" attribute.
       def process(content)
         @site_url = content.site.config['url']
 
@@ -21,6 +25,8 @@ module Jekyll
         end
       end
 
+
+      # Public: Determines if the content should be processed.
       def processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
             doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
@@ -34,7 +40,8 @@ module Jekyll
 
         processed_markup = process_anchor_tags(body_content)
 
-        content.output = String.new(head) << opener  << processed_markup << rest.join
+        content.output = String.new(head) << opener << processed_markup << rest.join
+
       end
 
       def process_anchor_tags(html)
