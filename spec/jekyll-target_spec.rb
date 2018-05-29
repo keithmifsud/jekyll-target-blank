@@ -33,7 +33,10 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   let(:text_file) { find_by_title(site.collections['docs'].docs, 'Text file') }
 
-  let(:post_with_code_block) {find_by_title(posts, 'Post with code block')}
+  let(:post_with_code_block) { find_by_title(posts, 'Post with code block') }
+  let(:document_with_liquid_tag) { find_by_title(site.collections['docs'].docs, 'Document with liquid tag') }
+
+  let(:document_with_include) { find_by_title(site.collections['docs'].docs, 'Document with include') }
 
   # define common wrappers.
   def para(content)
@@ -107,5 +110,28 @@ RSpec.describe(Jekyll::TargetBlank) do
     expect(site.pages.first.output).to include('<body class="wrap">
 ')
   end
+
+
+  it 'should not interfere with liquid tags' do
+    expect(document_with_liquid_tag.output).to include('<p>This <a href="/docs/document-with-liquid-tag.html">_docs/document-with-liquid-tag.md</a> is a document with a liquid tag.</p>')
+  end
+
+  it 'should not interfere with includes' do
+    expect(document_with_include.output).to include("<p>This is a document with an include: This is an include.</p>")
+  end
+
+  it 'should not break layout content' do
+    expect(site.pages.first.output).to include('<div>Layout content started.</div>')
+
+    expect(site.pages.first.output).to include('<div>Layout content ended.</div>')
+  end
+
+=begin
+  it 'should not break inline styles' do
+    expect(site.pages.first.output).to include('<style>body{background-color: red;}</style>')
+
+    expect(site.pages.first.output).to_not include('<link inline rel="stylesheet" href="/assets/style.css">')
+  end
+=end
 
 end

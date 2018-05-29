@@ -20,7 +20,7 @@ module Jekyll
           body_content, *rest = tail.partition("</body>")
 
           processed_markup = process_anchor_tags(content)
-          content.output = String.new(head) << opener << processed_markup << rest.join
+          content.output = String.new(head) << opener << body_content << processed_markup << rest.join
 
         else
           content.output = process_anchor_tags(content)

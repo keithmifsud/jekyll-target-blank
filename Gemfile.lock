@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jekyll-target-blank (0.2.0)
+    jekyll-target-blank (0.3.0)
       jekyll (~> 3.0)
       nokogiri
       rinku (~> 1.7.0)
