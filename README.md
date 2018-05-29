@@ -8,9 +8,6 @@ tbc...
 
 ## Dev Tasks - temp
 
-- [ ] add version file and include it
-
-- [ ] Remove `rinku` dependency and all references.
 
 - [ ] Remove minitest and deps.
 
@@ -21,5 +18,7 @@ tbc...
 - [ ] Deploy to rubygems as version 1.0
  
 - [ ] Add licence and copyright info to code, readme and as a file.
+
+- [ ] Update THIS
 
 - [ ] Submit to Jekyll's plugin list.

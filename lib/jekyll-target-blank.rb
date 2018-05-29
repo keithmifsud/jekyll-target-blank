@@ -1,5 +1,4 @@
 require 'jekyll'
-#require 'rinku'
 require 'nokogiri'
 require 'uri'
 
