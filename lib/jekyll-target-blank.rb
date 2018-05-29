@@ -27,11 +27,6 @@ module Jekyll
         end
       end
 
-      def processable?(doc)
-        (doc.is_a?(Jekyll::Page) || doc.write?) &&
-            doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
-      end
-
       private
 
       def process_anchor_tags(page)
@@ -55,5 +50,5 @@ module Jekyll
 end
 
 Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
-  Jekyll::TargetBlank.process(doc) if Jekyll::TargetBlank.processable?(doc)
+  Jekyll::TargetBlank.process(doc)
 end
