@@ -8,7 +8,7 @@ tbc...
 
 ## Dev Tasks - temp
 
-- [ ] Add comments.
+- [ ] Add comments and refactor code.
 
 - [ ] Run integration tests in an isolated jekyll install.
 

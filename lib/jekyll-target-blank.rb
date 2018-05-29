@@ -32,10 +32,8 @@ module Jekyll
         head, opener, tail = content.output.partition(OPENING_BODY_TAG_REGEX)
         body_content, *rest = tail.partition("</body>")
 
-        puts "head is: \n #{head} \n opener is: #{opener} \n tail is: #{tail} \n"
-        puts "content is: \n #{body_content} \n rest is: #{rest} \n"
-
         processed_markup = process_anchor_tags(body_content)
+
         content.output = String.new(head) << opener  << processed_markup << rest.join
       end
 
