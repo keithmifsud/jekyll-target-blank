@@ -55,8 +55,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   it "should add target attribute to multiple external markdown links" do
-    expect(post_with_multiple_external_markdown_links.output).to include('<p>This post contains three links. The first link is to <a href="https://google.com" target="_blank">Google</a>, the second link is, well, to <a href="https://keithmifsud.github.io" target="_blank">my website</a> and since <a href="https://github.com" target="_blank">GitHub</a> is so awesome, why not link to them too?</p>
-  ')
+    expect(post_with_multiple_external_markdown_links.output).to include('<p>This post contains three links. The first link is to <a href="https://google.com" target="_blank">Google</a>, the second link is, well, to <a href="https://keithmifsud.github.io" target="_blank">my website</a> and since <a href="https://github.com" target="_blank">GitHub</a> is so awesome, why not link to them too?</p>')
   end
 
   it "should not add target attribute to relative markdown link" do
