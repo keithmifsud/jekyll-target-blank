@@ -17,26 +17,26 @@ RSpec.describe(Jekyll::TargetBlank) do
   let(:posts) { site.posts.docs.sort.reverse }
 
   # get some fixtures
-  let(:post_with_external_markdown_link) { find_by_title(posts, 'Post with external markdown link') }
+  let(:post_with_external_markdown_link) { find_by_title(posts, "Post with external markdown link") }
 
-  let(:post_with_multiple_external_markdown_links) { find_by_title(posts, 'Post with multiple external markdown links') }
+  let(:post_with_multiple_external_markdown_links) { find_by_title(posts, "Post with multiple external markdown links") }
 
-  let(:post_with_relative_markdown_link) { find_by_title(posts, 'Post with relative markdown link') }
+  let(:post_with_relative_markdown_link) { find_by_title(posts, "Post with relative markdown link") }
 
-  let(:post_with_absolute_internal_markdown_link) { find_by_title(posts, 'Post with absolute internal markdown link') }
+  let(:post_with_absolute_internal_markdown_link) { find_by_title(posts, "Post with absolute internal markdown link") }
 
-  let(:post_with_html_anchor_tag) { find_by_title(posts, 'Post with html anchor tag') }
+  let(:post_with_html_anchor_tag) { find_by_title(posts, "Post with html anchor tag") }
 
-  let(:post_with_plain_text_link) { find_by_title(posts, 'Post with plain text link') }
+  let(:post_with_plain_text_link) { find_by_title(posts, "Post with plain text link") }
 
-  let(:document_with_a_processable_link) { find_by_title(site.collections['docs'].docs, 'Document with a processable link') }
+  let(:document_with_a_processable_link) { find_by_title(site.collections["docs"].docs, "Document with a processable link") }
 
-  let(:text_file) { find_by_title(site.collections['docs'].docs, 'Text file') }
+  let(:text_file) { find_by_title(site.collections["docs"].docs, "Text file") }
 
-  let(:post_with_code_block) { find_by_title(posts, 'Post with code block') }
-  let(:document_with_liquid_tag) { find_by_title(site.collections['docs'].docs, 'Document with liquid tag') }
+  let(:post_with_code_block) { find_by_title(posts, "Post with code block") }
+  let(:document_with_liquid_tag) { find_by_title(site.collections["docs"].docs, "Document with liquid tag") }
 
-  let(:document_with_include) { find_by_title(site.collections['docs'].docs, 'Document with include') }
+  let(:document_with_include) { find_by_title(site.collections["docs"].docs, "Document with include") }
 
   # define common wrappers.
   def para(content)
