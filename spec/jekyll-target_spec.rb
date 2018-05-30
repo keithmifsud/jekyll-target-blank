@@ -38,6 +38,8 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   let(:document_with_include) { find_by_title(site.collections["docs"].docs, "Document with include") }
 
+  let(:post_with_non_ascii_url) { find_by_title(posts, "Post with non ascii url") }
+
   # define common wrappers.
   def para(content)
     "<p>#{content}</p>"
@@ -123,7 +125,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   it "should not duplicate post content" do
     expect(post_with_external_markdown_link.output).to eq(post_with_layout_result)
   end
-
+  
   private
 
   def post_with_layout_result
