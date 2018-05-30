@@ -107,8 +107,7 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   it 'should not break layouts' do
     expect(site.pages.first.output).to include('<html lang="en-US">')
-    expect(site.pages.first.output).to include('<body class="wrap">
-')
+    expect(site.pages.first.output).to include('<body class="wrap">')
   end
 
 
