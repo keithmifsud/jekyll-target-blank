@@ -76,6 +76,14 @@ Simply [create an issue](https://github.com/keithmifsud/jekyll-target-blank/issu
 4. Create a new Pull Request
 
 
+### Testing
+
+```bash
+rake spec
+# or
+rspec
+```
+
 ## Legal
 
 This software is distributed under the [MIT](LICENSE.md) license.
