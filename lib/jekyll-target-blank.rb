@@ -15,7 +15,7 @@ module Jekyll
       #
       # content - the document or page to be processes.
       def process(content)
-        @site_url = content.site.config['url']
+        @site_url = content.site.config["url"]
 
         return unless content.output.include?("<a")
         if content.output.include? BODY_START_TAG
