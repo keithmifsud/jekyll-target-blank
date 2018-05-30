@@ -1,5 +1,5 @@
-# frozen_string_literal: true
 # encoding: UTF-8
+# frozen_string_literal: true
 
 RSpec.describe(Jekyll::TargetBlank) do
   Jekyll.logger.log_level = :error
