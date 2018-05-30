@@ -6,7 +6,7 @@ require "uri"
 
 module Jekyll
   class TargetBlank
-    BODY_START_TAG = "<body".freeze
+    BODY_START_TAG = "<body"
     OPENING_BODY_TAG_REGEX = %r!<body(.*)>\s*!
 
     class << self
