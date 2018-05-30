@@ -89,4 +89,4 @@ rspec
 
 This software is distributed under the [MIT](LICENSE.md) license.
 
-&copy; 2018 - Keith Mifsud <mifsud.k@gmail> and approved contributors.
+&copy; 2018 - Keith Mifsud <https://keith-mifsud.me> and approved contributors.
