@@ -54,7 +54,7 @@ module Jekyll
       # html = the html which includes the anchor tags.
       def process_anchor_tags(html)
         content = Nokogiri::HTML::DocumentFragment.parse(html)
-        anchors = content.css('a[href]')
+        anchors = content.css("a[href]")
         anchors.each do |item|
           if external?(item['href'])
             item['target'] = '_blank'
