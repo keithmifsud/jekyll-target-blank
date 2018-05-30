@@ -11,9 +11,10 @@ module Jekyll
 
     class << self
 
-
       # Public: Processes the content and updated the external links
       # by adding the target="_blank" attribute.
+      #
+      # content - the document or page to be processes.
       def process(content)
         @site_url = content.site.config['url']
 
@@ -27,6 +28,8 @@ module Jekyll
 
 
       # Public: Determines if the content should be processed.
+      #
+      # doc - the document being processes.
       def processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
             doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
@@ -34,6 +37,9 @@ module Jekyll
 
       private
 
+      # Private: Processes html content which has a body opening tag.
+      #
+      # content - html to be processes.
       def process_html(content)
         head, opener, tail = content.output.partition(OPENING_BODY_TAG_REGEX)
         body_content, *rest = tail.partition("</body>")
@@ -44,6 +50,10 @@ module Jekyll
 
       end
 
+      # Private: Processes the anchor tags and adds the target
+      # attribute if the link is external.
+      #
+      # html = the html which includes the anchor tags.
       def process_anchor_tags(html)
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css('a[href]')
@@ -55,6 +65,10 @@ module Jekyll
         content.to_html
       end
 
+      # Private: Checks if the links points to a host
+      # other than that set in Jekyll's configuration.
+      #
+      # link - a url.
       def external?(link)
         if link =~ /\A#{URI.regexp(['http', 'https'])}\z/
           URI.parse(link).host != URI.parse(@site_url).host
@@ -64,6 +78,7 @@ module Jekyll
   end
 end
 
+# Hooks into Jekyll's post_render event.
 Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
   Jekyll::TargetBlank.process(doc) if Jekyll::TargetBlank.processable?(doc)
 end

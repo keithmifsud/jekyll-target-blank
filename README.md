@@ -8,18 +8,17 @@ tbc...
 
 ## Dev Tasks - temp
 
-- [ ] Add comments and refactor code.
 
-- [ ] Run integration tests in an isolated jekyll install.
-
-- [ ] Deploy to rubygems as version 1.0
- 
 - [ ] Add licence and copyright info to code, readme and as a file.
 
 - [ ] Update THIS, include;
     -[ ] Include docs
     - [ ] Include contrib notes
+
+- [ ] Deploy to rubygems as version 1.0
     
 - [ ] remove old version from rubygems add ignore from local.
+
+- [ ]
 
 - [ ] Submit to Jekyll's plugin list.
