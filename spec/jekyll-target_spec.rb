@@ -3,7 +3,7 @@
 RSpec.describe(Jekyll::TargetBlank) do
   Jekyll.logger.log_level = :error
 
-  let(:config_overrides) {{}}
+  let(:config_overrides) { {} }
   let(:configs) do
     Jekyll.configuration(config_overrides.merge({
       "skip_config_files" => false,
