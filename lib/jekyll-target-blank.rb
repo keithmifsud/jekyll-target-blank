@@ -26,7 +26,6 @@ module Jekyll
                          end
       end
 
-
       # Public: Determines if the content should be processed.
       #
       # doc - the document being processes.
