@@ -10,7 +10,6 @@ module Jekyll
     OPENING_BODY_TAG_REGEX = %r!<body(.*)>\s*!
 
     class << self
-
       # Public: Processes the content and updated the external links
       # by adding the target="_blank" attribute.
       #
