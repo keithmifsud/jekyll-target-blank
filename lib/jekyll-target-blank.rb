@@ -46,7 +46,6 @@ module Jekyll
         processed_markup = process_anchor_tags(body_content)
 
         content.output = String.new(head) << opener << processed_markup << rest.join
-
       end
 
       # Private: Processes the anchor tags and adds the target
