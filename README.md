@@ -1,6 +1,6 @@
 # Jekyll Target Blank
 
-Adds a `target="_blank"` to __external__ links in Jekyll Content.
+Automatically adds a `target="_blank"` attribute to all __external__ links in Jekyll Content.
 
 [![Gem Version](https://badge.fury.io/rb/jekyll-target-blank.svg)](https://badge.fury.io/rb/jekyll-target-blank)
 
@@ -61,22 +61,23 @@ will be generated as:
 ```html
 <a href="https://google.com" target="_blank">Google</a>
 ```
+
+## Support
+
+Simply [create an issue](https://github.com/keithmifsud/jekyll-target-blank/issues/new) and I will respond as soon as possible.
+
  
+## Contributing
+
+1. [Fork it](https://github.com/keithmifsud/jekyll-target-blank/fork)
+2. Create your feature branch (`git checkout -b my-new-feature)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (git push origin my-new-feature)
+4. Create a new Pull Request
+
+
 ## Legal
 
-This software is open sourced under the [MIT](LICENSE.md) license.
+This software is distributed under the [MIT](LICENSE.md) license.
 
 &copy; 2018 - Keith Mifsud <mifsud.k@gmail> and approved contributors.
-
-## Dev Tasks - temp
-
-- [ ] Update THIS, include;
-    - [ ] Include contrib notes
-    - [ ] add travis build badge
-
-- [ ] Deploy to rubygems as version 1.0
-- [ ] Deploy to GH and tag version + release.
-    
-- [ ] remove old version from rubygems add ignore from local.
-
-- [ ] Submit to Jekyll's plugin list.
