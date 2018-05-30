@@ -2,6 +2,8 @@
 
 Adds a `target="_blank"` to __external__ links in Jekyll Content.
 
+[![Gem Version](https://badge.fury.io/rb/jekyll-target-blank.svg)](https://badge.fury.io/rb/jekyll-target-blank)
+
 ## Installation
 
 tbc...
