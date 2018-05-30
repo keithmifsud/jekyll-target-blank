@@ -16,8 +16,10 @@ tbc...
 - [ ] Update THIS, include;
     -[ ] Include docs
     - [ ] Include contrib notes
+    - [ ] add travis build badge
 
 - [ ] Deploy to rubygems as version 1.0
+- [ ] Deploy to GH and tag version + release.
     
 - [ ] remove old version from rubygems add ignore from local.
 
