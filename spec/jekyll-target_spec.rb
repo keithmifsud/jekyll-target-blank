@@ -89,7 +89,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   it "should not process links in non html files" do
-    expect(text_file.output).to eq('Valid [link](https://google.com).')
+    expect(text_file.output).to eq("Valid [link](https://google.com).")
   end
 
   it "should not process link in code block but process link outside of block" do
@@ -106,7 +106,6 @@ RSpec.describe(Jekyll::TargetBlank) do
     expect(site.pages.first.output).to include('<body class="wrap">')
   end
 
-
   it "should not interfere with liquid tags" do
     expect(document_with_liquid_tag.output).to include('<p>This <a href="/docs/document-with-liquid-tag.html">_docs/document-with-liquid-tag.md</a> is a document with a liquid tag.</p>')
   end
@@ -116,9 +115,9 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   it "should not break layout content" do
-    expect(site.pages.first.output).to include('<div>Layout content started.</div>')
+    expect(site.pages.first.output).to include("<div>Layout content started.</div>")
 
-    expect(site.pages.first.output).to include('<div>Layout content ended.</div>')
+    expect(site.pages.first.output).to include("<div>Layout content ended.</div>")
   end
 
   it "should not duplicate post content" do
@@ -146,5 +145,4 @@ RSpec.describe(Jekyll::TargetBlank) do
 </html>
     RESULT
   end
-
 end
