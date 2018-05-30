@@ -38,6 +38,8 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   let(:document_with_include) { find_by_title(site.collections["docs"].docs, "Document with include") }
 
+  let(:post_with_mailto_link) { find_by_title(posts, "Post with mailto link") }
+
   # define common wrappers.
   def para(content)
     "<p>#{content}</p>"
@@ -122,6 +124,10 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   it "should not duplicate post content" do
     expect(post_with_external_markdown_link.output).to eq(post_with_layout_result)
+  end
+
+  it "should ignore mailto links" do
+    expect(post_with_mailto_link.output).to include(para('This is a <a href="mailto:mifsud.k@gmail.com?Subject=Just%20an%20email">mailto link</a>.'))
   end
 
   private

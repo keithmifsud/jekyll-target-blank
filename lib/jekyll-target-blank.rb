@@ -56,11 +56,15 @@ module Jekyll
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css("a[href]")
         anchors.each do |item|
-          if external?(item["href"])
+          if not_mailto_link?(item["href"]) && external?(item["href"])
             item["target"] = "_blank"
           end
         end
         content.to_html
+      end
+
+      def not_mailto_link?(link)
+        return true unless link.to_s.start_with?("mailto:")
       end
 
       # Private: Checks if the links points to a host
