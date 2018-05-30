@@ -18,11 +18,12 @@ module Jekyll
         @site_url = content.site.config["url"]
 
         return unless content.output.include?("<a")
-        if content.output.include? BODY_START_TAG
-          content.output = process_html(content)
-        else
-          content.output = process_anchor_tags(content.output)
-        end
+
+        content.output = if content.output.include? BODY_START_TAG
+                           process_html(content)
+                         else
+                           process_anchor_tags(content.output)
+                         end
       end
 
 
