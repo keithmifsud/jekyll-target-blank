@@ -9,7 +9,7 @@ AllCops:
 Metrics/LineLength:
   Exclude:
     - spec/**/*
-    - jekyll-mentions.gemspec
+    - jekyll-target-blank.gemspec
 
 Metrics/BlockLength:
   Exclude:
