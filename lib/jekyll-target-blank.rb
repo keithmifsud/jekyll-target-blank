@@ -68,7 +68,7 @@ module Jekyll
       #
       # link - a url.
       def external?(link)
-        if link =~ /\A#{URI.regexp(['http', 'https'])}\z/
+        if link =~ URI.regexp(%w(http https))
           URI.parse(link).host != URI.parse(@site_url).host
         end
       end
