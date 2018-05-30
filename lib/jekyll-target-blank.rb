@@ -56,8 +56,8 @@ module Jekyll
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css("a[href]")
         anchors.each do |item|
-          if external?(item['href'])
-            item['target'] = '_blank'
+          if external?(item["href"])
+            item["target"] = "_blank"
           end
         end
         content.to_html
