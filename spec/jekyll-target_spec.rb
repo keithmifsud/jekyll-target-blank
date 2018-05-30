@@ -125,7 +125,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   it "should not duplicate post content" do
     expect(post_with_external_markdown_link.output).to eq(post_with_layout_result)
   end
-  
+
   private
 
   def post_with_layout_result
