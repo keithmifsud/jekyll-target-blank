@@ -5,6 +5,6 @@ echo "Rubocop $(bundle exec rubocop --version)"
 bundle exec rubocop -D -E $@
 success=$?
 if ((success != 0)); then
-   echo -e "\nTry running \`script/fmt -a\` to automatically fix errors"
+   echo -e "\nTry running \`scripts/quality -a\` to automatically fix errors"
 fi
 exit $success
