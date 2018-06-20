@@ -87,6 +87,11 @@ rake spec
 rspec
 ```
 
+## Credits
+
+The logo illustration was <a href="http://www.freepik.com">Designed by Freepik</a>. Thank you ❤️
+
+
 ## Legal
 
 This software is distributed under the [MIT](LICENSE.md) license.
