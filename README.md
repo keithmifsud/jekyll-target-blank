@@ -2,7 +2,7 @@
 
 ![Jekyll Target Blank Logo](assets/logo.png "Jekyll Target Blank")
 
-Automatically adds a `target="_blank"` attribute to all __external__ links in Jekyll Content.
+Automatically adds a `target="_blank"` attribute to all __external__ links in Jekyll Content. [Read more..](https://keith-mifsud.me/projects/jekyll-target-blank)
 
 [![Gem Version](https://badge.fury.io/rb/jekyll-target-blank.svg)](https://badge.fury.io/rb/jekyll-target-blank)
 [![Build Status](https://travis-ci.org/keithmifsud/jekyll-target-blank.svg?branch=master)](https://travis-ci.org/keithmifsud/jekyll-target-blank)
@@ -86,6 +86,11 @@ rake spec
 # or
 rspec
 ```
+
+## Credits
+
+The logo illustration was <a href="http://www.freepik.com">Designed by Freepik</a>. Thank you ❤️
+
 
 ## Legal
 
