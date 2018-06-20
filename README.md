@@ -1,5 +1,7 @@
 # Jekyll Target Blank
 
+![Jekyll Target Blank Logo](assets/logo.png "Jekyll Target Blank")
+
 Automatically adds a `target="_blank"` attribute to all __external__ links in Jekyll Content.
 
 [![Gem Version](https://badge.fury.io/rb/jekyll-target-blank.svg)](https://badge.fury.io/rb/jekyll-target-blank)
