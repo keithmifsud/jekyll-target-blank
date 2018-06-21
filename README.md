@@ -2,7 +2,7 @@
 
 ![Jekyll Target Blank Logo](assets/logo.png "Jekyll Target Blank")
 
-Automatically adds a `target="_blank"` attribute to all __external__ links in Jekyll Content. [Read more..](https://keith-mifsud.me/projects/jekyll-target-blank)
+Automatically adds a `target="_blank" rel="noopener noreferrer"` attribute to all __external__ links in Jekyll Content. [Read more..](https://keith-mifsud.me/projects/jekyll-target-blank)
 
 [![Gem Version](https://badge.fury.io/rb/jekyll-target-blank.svg)](https://badge.fury.io/rb/jekyll-target-blank)
 [![Build Status](https://travis-ci.org/keithmifsud/jekyll-target-blank.svg?branch=master)](https://travis-ci.org/keithmifsud/jekyll-target-blank)
@@ -48,7 +48,7 @@ The following html anchor tag:
 will be replaced with:
 
 ```html
-<a href="https://google.com" target="_blank">Google</a>
+<a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>
 ```
 
 ..unless your website's URL is google.com 😉
@@ -62,14 +62,14 @@ will be replaced with:
 will be generated as:
 
 ```html
-<a href="https://google.com" target="_blank">Google</a>
+<a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>
 ```
 
 ## Support
 
 Simply [create an issue](https://github.com/keithmifsud/jekyll-target-blank/issues/new) and I will respond as soon as possible.
 
- 
+
 ## Contributing
 
 1. [Fork it](https://github.com/keithmifsud/jekyll-target-blank/fork)
