@@ -11,7 +11,7 @@ module Jekyll
 
     class << self
       # Public: Processes the content and updated the external links
-      # by adding the target="_blank" attribute.
+      # by adding target="_blank" and rel="noopener noreferrer" attributes.
       #
       # content - the document or page to be processes.
       def process(content)
@@ -58,6 +58,7 @@ module Jekyll
         anchors.each do |item|
           if not_mailto_link?(item["href"]) && external?(item["href"])
             item["target"] = "_blank"
+            item["rel"] = "noopener noreferrer"
           end
         end
         content.to_html
