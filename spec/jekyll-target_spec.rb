@@ -32,7 +32,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   let(:document_with_a_processable_link) { find_by_title(site.collections["docs"].docs, "Document with a processable link") }
 
   let(:text_file) { find_by_title(site.collections["docs"].docs, "Text file") }
-
+0
   let(:post_with_code_block) { find_by_title(posts, "Post with code block") }
   let(:document_with_liquid_tag) { find_by_title(site.collections["docs"].docs, "Document with liquid tag") }
 
@@ -150,5 +150,15 @@ RSpec.describe(Jekyll::TargetBlank) do
 </body>
 </html>
     RESULT
+  end
+
+  context "With a specified css class name" do
+    let(:target_blank_css_class) {"ext-link"}
+    let(:config_overrides) do
+      {
+        "target-blank" => { "css_class" => :target_blank_css_class }
+      }
+    end
+
   end
 end
