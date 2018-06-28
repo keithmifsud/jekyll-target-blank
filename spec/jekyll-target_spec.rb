@@ -153,12 +153,15 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   context "With a specified css class name" do
-    let(:target_blank_css_class) {"ext-link"}
+    let(:target_blank_css_class) { "ext-link" }
     let(:config_overrides) do
       {
         "target-blank" => { "css_class" => :target_blank_css_class }
       }
     end
 
+    it "should not automatically add target attribute to external markdown link" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank">Google</a>.'))
+    end
   end
 end
