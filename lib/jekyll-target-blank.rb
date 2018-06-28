@@ -77,6 +77,17 @@ module Jekyll
         end
       end
 
+      def css_class_name_specified?(config = {})
+        target_blank_config = config["target-blank"]
+        case target_blank_config
+        when nil, NilClass
+          false
+        else
+          is_specified = target_blank_config.fetch("css_class", false)
+          true unless is_specified == false
+        end
+      end
+
     end
   end
 end
