@@ -64,7 +64,7 @@ module Jekyll
       end
 
       def not_mailto_link?(link)
-        return true unless link.to_s.start_with?("mailto:")
+        true unless link.to_s.start_with?("mailto:")
       end
 
       # Private: Checks if the links points to a host
@@ -76,6 +76,7 @@ module Jekyll
           URI.parse(link).host != URI.parse(@site_url).host
         end
       end
+
     end
   end
 end
