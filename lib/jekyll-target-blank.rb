@@ -6,7 +6,7 @@ require "uri"
 
 module Jekyll
   class TargetBlank
-    BODY_START_TAG = "<body"
+    BODY_START_TAG         = "<body"
     OPENING_BODY_TAG_REGEX = %r!<body(.*)>\s*!
 
     class << self
@@ -15,7 +15,11 @@ module Jekyll
       #
       # content - the document or page to be processes.
       def process(content)
+
         @site_url = content.site.config["url"]
+
+        # @todo config must be a class prop.
+        @config = content.site.config
 
         return unless content.output.include?("<a")
 
@@ -31,7 +35,7 @@ module Jekyll
       # doc - the document being processes.
       def processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
-          doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
+            doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
       end
 
       private
@@ -40,7 +44,7 @@ module Jekyll
       #
       # content - html to be processes.
       def process_html(content)
-        head, opener, tail = content.output.partition(OPENING_BODY_TAG_REGEX)
+        head, opener, tail  = content.output.partition(OPENING_BODY_TAG_REGEX)
         body_content, *rest = tail.partition("</body>")
 
         processed_markup = process_anchor_tags(body_content)
@@ -56,8 +60,15 @@ module Jekyll
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css("a[href]")
         anchors.each do |item|
-          if not_mailto_link?(item["href"]) && external?(item["href"])
-            item["target"] = "_blank"
+
+          if css_class_name_specified?(@config)
+            if includes_specified_css_class?(item) && not_mailto_link?(item["href"]) && external?(item["href"])
+              item["target"] = "_blank"
+            end
+          else
+            if not_mailto_link?(item["href"]) && external?(item["href"])
+              item["target"] = "_blank"
+            end
           end
         end
         content.to_html
@@ -85,6 +96,39 @@ module Jekyll
         else
           is_specified = target_blank_config.fetch("css_class", false)
           true unless is_specified == false
+        end
+      end
+
+      def includes_specified_css_class?(link)
+        link_classes = get_css_classes(link)
+        unless link_classes == false
+          link_classes = link_classes.split(" ")
+          contained    = false
+          link_classes.each { |name|
+            contained = true unless name != get_specified_class_name
+          }
+          return contained
+        end
+        false
+      end
+
+      def get_css_classes(link)
+        if class_attribute?(link)
+          classes = /.*class=\"(.*)\".*/.match(link)
+          return classes[1]
+        end
+        false
+      end
+
+      def class_attribute?(link)
+        link.include?("class=")
+      end
+
+      def get_specified_class_name
+        config = @config
+        if css_class_name_specified?(config)
+          target_blank_config = config["target-blank"]
+          target_blank_config.fetch("css_class")
         end
       end
 
