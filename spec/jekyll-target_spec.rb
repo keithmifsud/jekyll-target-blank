@@ -175,6 +175,9 @@ RSpec.describe(Jekyll::TargetBlank) do
     # even when a link has a class specified.
     #
     # # even when a link has more than one class specified.
+    #
+
+    # new context for when both specified css class and class to add are in config. With one or more css classes on both config and the links.
   end
 
   private
