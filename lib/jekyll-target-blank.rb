@@ -6,7 +6,7 @@ require "uri"
 
 module Jekyll
   class TargetBlank
-    BODY_START_TAG = "<body"
+    BODY_START_TAG         = "<body"
     OPENING_BODY_TAG_REGEX = %r!<body(.*)>\s*!
 
     class << self
@@ -16,6 +16,7 @@ module Jekyll
       # content - the document or page to be processes.
       def process(content)
         @site_url = content.site.config["url"]
+        @config   = content.site.config
 
         return unless content.output.include?("<a")
 
@@ -40,7 +41,7 @@ module Jekyll
       #
       # content - html to be processes.
       def process_html(content)
-        head, opener, tail = content.output.partition(OPENING_BODY_TAG_REGEX)
+        head, opener, tail  = content.output.partition(OPENING_BODY_TAG_REGEX)
         body_content, *rest = tail.partition("</body>")
 
         processed_markup = process_anchor_tags(body_content)
@@ -49,22 +50,31 @@ module Jekyll
       end
 
       # Private: Processes the anchor tags and adds the target
-      # attribute if the link is external.
+      # attribute if the link is external and depending on the config settings.
       #
       # html = the html which includes the anchor tags.
       def process_anchor_tags(html)
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css("a[href]")
         anchors.each do |item|
-          if not_mailto_link?(item["href"]) && external?(item["href"])
+          if css_class_name_specified?
+            if not_mailto_link?(item["href"]) && external?(item["href"])
+              if includes_specified_css_class?(item.to_s)
+                item["target"] = "_blank"
+              end
+            end
+          elsif not_mailto_link?(item["href"]) && external?(item["href"])
             item["target"] = "_blank"
           end
         end
         content.to_html
       end
 
+      # Private: Checks if the link is a mailto url.
+      #
+      # link - a url.
       def not_mailto_link?(link)
-        return true unless link.to_s.start_with?("mailto:")
+        true unless link.to_s.start_with?("mailto:")
       end
 
       # Private: Checks if the links points to a host
@@ -75,6 +85,59 @@ module Jekyll
         if link =~ URI.regexp(%w(http https))
           URI.parse(link).host != URI.parse(@site_url).host
         end
+      end
+
+      # Private: Checks if a css class name is specified in config
+      def css_class_name_specified?
+        target_blank_config = @config["target-blank"]
+        case target_blank_config
+        when nil, NilClass
+          false
+        else
+          target_blank_config.fetch("css_class", false)
+        end
+      end
+
+      # Private: Checks if the link contains the same css class name
+      # as specified in config.
+      #
+      # link - the url under test.
+      def includes_specified_css_class?(link)
+        link_classes = get_css_classes(link)
+        if link_classes
+          link_classes = link_classes.split(" ")
+          contained    = false
+          link_classes.each do |name|
+            contained = true unless name != specified_class_name
+          end
+          return contained
+        end
+        false
+      end
+
+      # Private: Gets the the css classes of the link.
+      #
+      # link - an anchor tag.
+      def get_css_classes(link)
+        if class_attribute?(link)
+          classes = %r!/.*class="(.*)".*/!.match(link.to_s)
+          return classes[1]
+        end
+        false
+      end
+
+      # Private: Checks if the link contains the class attribute.
+      #
+      # link - an anchor tag.
+      def class_attribute?(link)
+        link.include?("class=")
+      end
+
+      # Private: Fetches the specified css class name
+      # from config.
+      def specified_class_name
+        target_blank_config = @config["target-blank"]
+        target_blank_config.fetch("css_class")
       end
     end
   end
