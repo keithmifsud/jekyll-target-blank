@@ -62,7 +62,6 @@ RSpec.describe(Jekyll::TargetBlank) do
     expect(post_with_multiple_external_markdown_links.output).to include('<p>This post contains three links. The first link is to <a href="https://google.com" target="_blank">Google</a>, the second link is, well, to <a href="https://keithmifsud.github.io" target="_blank">my website</a> and since <a href="https://github.com" target="_blank">GitHub</a> is so awesome, why not link to them too?</p>')
   end
 
-
   it "should not add target attribute to relative markdown link" do
     expect(post_with_relative_markdown_link.output).to include(para('Link to <a href="/contact">contact page</a>.'))
 
@@ -151,8 +150,7 @@ RSpec.describe(Jekyll::TargetBlank) do
 
       expect(post_with_external_html_link_and_random_css_classes.output).to_not include('target="_blank"')
     end
-
-
+    
     it "should add target attribute to an external link containing the specified css class" do
 
       expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('<a href="https://google.com" class="ext-link" target="_blank">Link with the css class specified in config</a>.'))
