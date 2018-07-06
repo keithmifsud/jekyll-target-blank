@@ -60,6 +60,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     expect(post_with_multiple_external_markdown_links.output).to include('<p>This post contains three links. The first link is to <a href="https://google.com" target="_blank">Google</a>, the second link is, well, to <a href="https://keithmifsud.github.io" target="_blank">my website</a> and since <a href="https://github.com" target="_blank">GitHub</a> is so awesome, why not link to them too?</p>')
   end
 
+
   it "should not add target attribute to relative markdown link" do
     expect(post_with_relative_markdown_link.output).to include(para('Link to <a href="/contact">contact page</a>.'))
 
@@ -72,18 +73,15 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   it "should correctly handle existing html anchor tag" do
-    expect(post_with_html_anchor_tag.output).to include('<p>This is an <a href="https://google.com" target="_blank">anchor tag</a>.</p>
-')
+    expect(post_with_html_anchor_tag.output).to include('<p>This is an <a href="https://google.com" target="_blank">anchor tag</a>.</p>')
   end
 
   it "should not interfere with plain text link" do
-    expect(post_with_plain_text_link.output).to include("<p>This is a plain text link to https://google.com.</p>
-")
+    expect(post_with_plain_text_link.output).to include("<p>This is a plain text link to https://google.com.</p>")
   end
 
   it "should process external links in collections" do
-    expect(document_with_a_processable_link.output).to include('<p>This is a valid <a href="https://google.com" target="_blank">link</a>.</p>
-')
+    expect(document_with_a_processable_link.output).to include('<p>This is a valid <a href="https://google.com" target="_blank">link</a>.</p>')
   end
 
   it "should process external links in pages" do
@@ -99,8 +97,7 @@ RSpec.describe(Jekyll::TargetBlank) do
 
     expect(post_with_code_block.output).not_to include("<span class=\"s1\"><a href=\"https://google.com\" target=\"_blank\">https://google.com</a></span>")
 
-    expect(post_with_code_block.output).to include('<p>Valid <a href="https://google.com" target="_blank">link</a></p>
-')
+    expect(post_with_code_block.output).to include('<p>Valid <a href="https://google.com" target="_blank">link</a></p>')
   end
 
   it "should not break layouts" do
@@ -130,28 +127,6 @@ RSpec.describe(Jekyll::TargetBlank) do
     expect(post_with_mailto_link.output).to include(para('This is a <a href="mailto:mifsud.k@gmail.com?Subject=Just%20an%20email">mailto link</a>.'))
   end
 
-  private
-
-  def post_with_layout_result
-    <<-RESULT
-<!DOCTYPE HTML>
-<html lang="en-US">
-<head>
-    <meta charset="UTF-8">
-    <title>Post with external markdown link</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="/css/screen.css">
-</head>
-<body class="wrap">
-    <div>Layout content started.</div>
-<p>Link to <a href="https://google.com" target="_blank">Google</a>.</p>
-
-    <div>Layout content ended.</div>
-</body>
-</html>
-    RESULT
-  end
-
   context "With a specified css class name" do
     let(:target_blank_css_class) { "ext-link" }
     let(:config_overrides) do
@@ -165,10 +140,14 @@ RSpec.describe(Jekyll::TargetBlank) do
     let(:external_link_with_specified_class_attribute) { '<a href="https://google.com" class="ext-link">Google</a>' }
     let(:external_link_with_multiple_class_names_including_the_specified_one) { '<a href="https://google.com" class="random-class ext-link">Google</a>' }
 
+
     # from here
     let(:post_with_external_html_link_and_random_css_classes) { find_by_title(posts, "Post with external html link and random css classes") }
 
     let(:post_with_html_link_containing_the_specified_css_class) { find_by_title(posts, "Post with html link containing the specified css class") }
+
+    let(:post_with_external_link_containing_the_specified_css_class_and_other_css_classes) { find_by_title(posts, "Post with external link containing the specified css class and other css classes") }
+
 
     it "knows when a css class name is specified in config" do
       expect(target_blank.send :css_class_name_specified?, config_overrides).to eql(true)
@@ -213,12 +192,44 @@ RSpec.describe(Jekyll::TargetBlank) do
 
     it "should not add target attribute to external markdown link that does not have the specified css class even if it does have other css classes" do
 
-      expect(post_with_external_html_link_and_random_css_classes.output).to include(para('<a href="https://keith-mifsud.me" class="random-class another-random-class">Link</a>.'))
+      expect(post_with_external_html_link_and_random_css_classes.output).to include(para('<a href="https://google.com" class="random-class another-random-class">Link</a>.'))
 
       expect(post_with_external_html_link_and_random_css_classes.output).to_not include('target="_blank"')
     end
 
 
+    it "should add target attribute to an external link containing the specified css class" do
 
+      expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('<a href="https://google.com" class="ext-link" target="_blank">Link with the css class specified in config</a>.'))
+    end
+
+    it "should add target attribute to an external link containing the specified css class even when other css classes are specified" do
+
+      expect(post_with_external_link_containing_the_specified_css_class_and_other_css_classes.output).to include(para('This is <a href="https://not-keith-mifsud.me" class="random-class ext-link another-random-class" target="_blank">a link containing the specified css class and two other random css classes</a>.'))
+    end
+
+
+  end
+
+  private
+
+  def post_with_layout_result
+    <<-RESULT
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Post with external markdown link</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="/css/screen.css">
+</head>
+<body class="wrap">
+    <div>Layout content started.</div>
+<p>Link to <a href="https://google.com" target="_blank">Google</a>.</p>
+
+    <div>Layout content ended.</div>
+</body>
+</html>
+    RESULT
   end
 end

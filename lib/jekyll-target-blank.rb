@@ -60,10 +60,11 @@ module Jekyll
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css("a[href]")
         anchors.each do |item|
-
           if css_class_name_specified?(@config)
-            if includes_specified_css_class?(item) && not_mailto_link?(item["href"]) && external?(item["href"])
-              item["target"] = "_blank"
+            if not_mailto_link?(item["href"]) && external?(item["href"])
+              if includes_specified_css_class?(item.to_s)
+                item["target"] = "_blank"
+              end
             end
           else
             if not_mailto_link?(item["href"]) && external?(item["href"])
@@ -114,7 +115,7 @@ module Jekyll
 
       def get_css_classes(link)
         if class_attribute?(link)
-          classes = /.*class=\"(.*)\".*/.match(link)
+          classes = /.*class=\"(.*)\".*/.match(link.to_s)
           return classes[1]
         end
         false
