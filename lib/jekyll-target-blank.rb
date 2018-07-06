@@ -50,7 +50,7 @@ module Jekyll
       end
 
       # Private: Processes the anchor tags and adds the target
-      # attribute if the link is external.
+      # attribute if the link is external and depending on the config settings.
       #
       # html = the html which includes the anchor tags.
       def process_anchor_tags(html)
@@ -70,6 +70,9 @@ module Jekyll
         content.to_html
       end
 
+      # Private: Checks if the link is a mailto url.
+      #
+      # link - a url.
       def not_mailto_link?(link)
         true unless link.to_s.start_with?("mailto:")
       end
@@ -84,6 +87,7 @@ module Jekyll
         end
       end
 
+      # Private: Checks if a css class name is specified in config
       def css_class_name_specified?
         target_blank_config = @config["target-blank"]
         case target_blank_config
@@ -94,6 +98,10 @@ module Jekyll
         end
       end
 
+      # Private: Checks if the link contains the same css class name
+      # as specified in config.
+      #
+      # link - the url under test.
       def includes_specified_css_class?(link)
         link_classes = get_css_classes(link)
         if link_classes
@@ -107,6 +115,9 @@ module Jekyll
         false
       end
 
+      # Private: Gets the the css classes of the link.
+      #
+      # link - an anchor tag.
       def get_css_classes(link)
         if class_attribute?(link)
           classes = %r!/.*class="(.*)".*/!.match(link.to_s)
@@ -115,10 +126,15 @@ module Jekyll
         false
       end
 
+      # Private: Checks if the link contains the class attribute.
+      #
+      # link - an achor tag.
       def class_attribute?(link)
         link.include?("class=")
       end
 
+      # Private: Fetches the specified css class name
+      # from config.
       def specified_class_name
         target_blank_config = @config["target-blank"]
         target_blank_config.fetch("css_class")
