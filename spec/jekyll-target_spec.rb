@@ -42,6 +42,12 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   let(:post_with_mailto_link) { find_by_title(posts, "Post with mailto link") }
 
+  let(:post_with_external_html_link_and_random_css_classes) { find_by_title(posts, "Post with external html link and random css classes") }
+
+      let(:post_with_html_link_containing_the_specified_css_class) { find_by_title(posts, "Post with html link containing the specified css class") }
+
+      let(:post_with_external_link_containing_the_specified_css_class_and_other_css_classes) { find_by_title(posts, "Post with external link containing the specified css class and other css classes") }
+
   # define common wrappers.
   def para(content)
     "<p>#{content}</p>"
@@ -137,11 +143,6 @@ RSpec.describe(Jekyll::TargetBlank) do
       { "target-blank" => { "css_class" => target_blank_css_class } }
     end
 
-    let(:post_with_external_html_link_and_random_css_classes) { find_by_title(posts, "Post with external html link and random css classes") }
-
-    let(:post_with_html_link_containing_the_specified_css_class) { find_by_title(posts, "Post with html link containing the specified css class") }
-
-    let(:post_with_external_link_containing_the_specified_css_class_and_other_css_classes) { find_by_title(posts, "Post with external link containing the specified css class and other css classes") }
 
     it "should not add target attribute to external markdown link that does not have the specified css class" do
       expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank">Google</a>.'))
@@ -172,7 +173,11 @@ RSpec.describe(Jekyll::TargetBlank) do
       expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="some-class">Google</a>.'))
     end
 
-    # even when a link has a class specified.
+    it "should add the CSS class specified in config even when the link already has a CSS classes specified" do
+      expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="ext-link some-class">Google</a>.'))
+    end
+
+
     #
     # # even when a link has more than one class specified.
     #
