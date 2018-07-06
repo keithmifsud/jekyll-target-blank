@@ -134,58 +134,13 @@ RSpec.describe(Jekyll::TargetBlank) do
           "target-blank" => { "css_class" => target_blank_css_class }
       }
     end
-    let(:external_link_without_class_attribute) { '<a href="https://google.com">Google</a>' }
-    let(:external_link_with_random_class_attribute) { '<a href="https://google.com" class="random-class">Google</a>' }
-    let(:external_link_with_multiple_class_attributes) { '<a href="https://google.com" class="random-class another-random-class">Google</a>' }
-    let(:external_link_with_specified_class_attribute) { '<a href="https://google.com" class="ext-link">Google</a>' }
-    let(:external_link_with_multiple_class_names_including_the_specified_one) { '<a href="https://google.com" class="random-class ext-link">Google</a>' }
 
-
-    # from here
     let(:post_with_external_html_link_and_random_css_classes) { find_by_title(posts, "Post with external html link and random css classes") }
 
     let(:post_with_html_link_containing_the_specified_css_class) { find_by_title(posts, "Post with html link containing the specified css class") }
 
     let(:post_with_external_link_containing_the_specified_css_class_and_other_css_classes) { find_by_title(posts, "Post with external link containing the specified css class and other css classes") }
-
-
-    it "knows when a css class name is specified in config" do
-      expect(target_blank.send :css_class_name_specified?, config_overrides).to eql(true)
-
-      expect(target_blank.send :css_class_name_specified?, {}).to eql(false)
-
-      expect(target_blank.send :css_class_name_specified?, { "randon_option" => "randon-value" }).to eql(false)
-    end
-
-    it "should know what the specified class name is" do
-      expect(target_blank.send :get_specified_class_name).to eql(target_blank_css_class)
-    end
-
-    it "should know if a link has a class attribute" do
-      expect(target_blank.send :class_attribute?, external_link_without_class_attribute).to eql(false)
-
-      expect(target_blank.send :class_attribute?, external_link_with_random_class_attribute).to eql(true)
-    end
-
-    it "should know which css class names a link has" do
-      expect(target_blank.send :get_css_classes, external_link_with_random_class_attribute).to eql("random-class")
-
-      expect(target_blank.send :get_css_classes, external_link_with_multiple_class_attributes).to eql("random-class another-random-class")
-    end
-
-    it "should know when a link contains the specified css class name" do
-      expect(target_blank.send :includes_specified_css_class?, external_link_without_class_attribute).to eql(false)
-
-      expect(target_blank.send :includes_specified_css_class?, external_link_with_random_class_attribute).to eql(false)
-
-      expect(target_blank.send :includes_specified_css_class?, external_link_with_multiple_class_attributes).to eql(false)
-
-      expect(target_blank.send :includes_specified_css_class?, external_link_with_specified_class_attribute).to eql(true)
-
-      expect(target_blank.send :includes_specified_css_class?, external_link_with_multiple_class_names_including_the_specified_one).to eql(true)
-
-    end
-
+    
     it "should not add target attribute to external markdown link that does not have the specified css class" do
       expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank">Google</a>.'))
     end
