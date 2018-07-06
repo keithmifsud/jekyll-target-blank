@@ -16,7 +16,7 @@ module Jekyll
       # content - the document or page to be processes.
       def process(content)
         @site_url = content.site.config["url"]
-        @config = content.site.config
+        @config   = content.site.config
 
         return unless content.output.include?("<a")
 
@@ -32,7 +32,7 @@ module Jekyll
       # doc - the document being processes.
       def processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
-            doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
+          doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
       end
 
       private
@@ -63,10 +63,8 @@ module Jekyll
                 item["target"] = "_blank"
               end
             end
-          else
-            if not_mailto_link?(item["href"]) && external?(item["href"])
-              item["target"] = "_blank"
-            end
+          elsif not_mailto_link?(item["href"]) && external?(item["href"])
+            item["target"] = "_blank"
           end
         end
         content.to_html
@@ -92,19 +90,18 @@ module Jekyll
         when nil, NilClass
           false
         else
-          is_specified = target_blank_config.fetch("css_class", false)
-          true unless is_specified == false
+          target_blank_config.fetch("css_class", false)
         end
       end
 
       def includes_specified_css_class?(link)
         link_classes = get_css_classes(link)
-        unless link_classes == false
+        if link_classes
           link_classes = link_classes.split(" ")
           contained    = false
-          link_classes.each { |name|
-            contained = true unless name != get_specified_class_name
-          }
+          link_classes.each do |name|
+            contained = true unless name != specified_class_name
+          end
           return contained
         end
         false
@@ -112,7 +109,7 @@ module Jekyll
 
       def get_css_classes(link)
         if class_attribute?(link)
-          classes = /.*class=\"(.*)\".*/.match(link.to_s)
+          classes = %r!/.*class="(.*)".*/!.match(link.to_s)
           return classes[1]
         end
         false
@@ -122,11 +119,10 @@ module Jekyll
         link.include?("class=")
       end
 
-      def get_specified_class_name
+      def specified_class_name
         target_blank_config = @config["target-blank"]
         target_blank_config.fetch("css_class")
       end
-
     end
   end
 end
