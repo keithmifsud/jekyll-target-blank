@@ -130,9 +130,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   context "With a specified css class name" do
     let(:target_blank_css_class) { "ext-link" }
     let(:config_overrides) do
-      {
-          "target-blank" => { "css_class" => target_blank_css_class }
-      }
+      { "target-blank" => { "css_class" => target_blank_css_class } }
     end
 
     let(:post_with_external_html_link_and_random_css_classes) { find_by_title(posts, "Post with external html link and random css classes") }
@@ -162,8 +160,6 @@ RSpec.describe(Jekyll::TargetBlank) do
 
       expect(post_with_external_link_containing_the_specified_css_class_and_other_css_classes.output).to include(para('This is <a href="https://not-keith-mifsud.me" class="random-class ext-link another-random-class" target="_blank">a link containing the specified css class and two other random css classes</a>.'))
     end
-
-
   end
 
   private
