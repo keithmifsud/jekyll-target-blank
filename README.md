@@ -31,7 +31,7 @@ gems:
 
 ## Usage
 
-All anchor tags and markdown links pointing to an external host, other than the one listed as `url` in jekyll's `_config.yml` will automatically open in a new tab once the site has been generated.
+By default all anchor tags and markdown links pointing to an external host, other than the one listed as `url` in jekyll's `_config.yml` will automatically open in a new tab once the site is generated.
 
 This includes pages, posts and collections. __Plain text links are not included__.
 
@@ -64,6 +64,20 @@ will be generated as:
 ```html
 <a href="https://google.com" target="_blank">Google</a>
 ```
+
+### Configuration
+
+You can override the default behaviour and only force external links to open in new browser if they have a css class name with the same value as the one listed in the Jekyll `_config.yml` file.
+
+To override the automation, add the following entry in your site's `config.yml` file, specifying which css class a link should have for it to be forced to open in a new browser:
+
+```yaml
+target-blank:
+    css_class: ext-link
+```
+
+With the above setting, only links containing the `class="ext-link"` will be forced to open in a new browser.
+ 
 
 ## Support
 
