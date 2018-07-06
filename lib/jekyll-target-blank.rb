@@ -15,10 +15,7 @@ module Jekyll
       #
       # content - the document or page to be processes.
       def process(content)
-
         @site_url = content.site.config["url"]
-
-        # @todo config must be a class prop.
         @config = content.site.config
 
         return unless content.output.include?("<a")
@@ -60,7 +57,7 @@ module Jekyll
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css("a[href]")
         anchors.each do |item|
-          if css_class_name_specified?(@config)
+          if css_class_name_specified?
             if not_mailto_link?(item["href"]) && external?(item["href"])
               if includes_specified_css_class?(item.to_s)
                 item["target"] = "_blank"
@@ -89,8 +86,8 @@ module Jekyll
         end
       end
 
-      def css_class_name_specified?(config = {})
-        target_blank_config = config["target-blank"]
+      def css_class_name_specified?
+        target_blank_config = @config["target-blank"]
         case target_blank_config
         when nil, NilClass
           false
@@ -126,11 +123,8 @@ module Jekyll
       end
 
       def get_specified_class_name
-        config = @config
-        if css_class_name_specified?(config)
-          target_blank_config = config["target-blank"]
-          target_blank_config.fetch("css_class")
-        end
+        target_blank_config = @config["target-blank"]
+        target_blank_config.fetch("css_class")
       end
 
     end
