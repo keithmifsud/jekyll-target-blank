@@ -128,7 +128,7 @@ module Jekyll
 
       # Private: Checks if the link contains the class attribute.
       #
-      # link - an achor tag.
+      # link - an anchor tag.
       def class_attribute?(link)
         link.include?("class=")
       end
