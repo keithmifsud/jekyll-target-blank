@@ -178,9 +178,9 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
 
 
-    #
-    # # even when a link has more than one class specified.
-    #
+    it "should add the CSS class specified in config even when the link has more than CSS classes already included" do
+      expect(post_with_external_link_containing_the_specified_css_class_and_other_css_classes.output).to include(para('This is <a href="https://not-keith-mifsud.me" class="some-class random-class ext-link another-random-class" target="_blank" rel="noopener noreferrer">a link containing the specified css class and two other random css classes</a>.'))
+    end
 
     # new context for when both specified css class and class to add are in config. With one or more css classes on both config and the links.
   end
