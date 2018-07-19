@@ -59,7 +59,7 @@ module Jekyll
         anchors.each do |item|
           if css_class_name_specified?
             if not_mailto_link?(item["href"]) && external?(item["href"])
-              if includes_specified_css_class?(item.to_s)
+              if includes_specified_css_class?(item)
                 item["target"] = "_blank"
               end
             end
