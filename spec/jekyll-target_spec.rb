@@ -195,6 +195,10 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
   end
 
+  it "should add the CSS classes specified in config even when the link already has a CSS class included" do
+    expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('<a href="https://google.com" class="some-class other-some-class another-some-class ext-link" target="_blank" rel="noopener noreferrer">Link with the css class specified in config</a>.'))
+  end
+
   private
 
   def post_with_layout_result
