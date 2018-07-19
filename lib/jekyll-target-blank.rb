@@ -70,8 +70,6 @@ module Jekyll
               existing_classes = get_css_classes(item)
               existing_classes = " " +existing_classes unless existing_classes.to_s.empty?
               item["class"] = css_classes_to_add.to_s + existing_classes
-            else
-              item["class"] = css_classes_to_add.to_s
             end
           end
         end
