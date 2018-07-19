@@ -67,6 +67,7 @@ module Jekyll
             item["target"] = "_blank"
             item["rel"] = "noopener noreferrer"
             if should_add_css_class?
+              existing_classes = get_css_classes(item.to_s).to_s
               item["class"] = css_classes_to_add
             end
           end
