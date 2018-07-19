@@ -32,7 +32,7 @@ module Jekyll
       # doc - the document being processes.
       def processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
-          doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
+            doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
       end
 
       private
@@ -65,10 +65,13 @@ module Jekyll
             end
           elsif not_mailto_link?(item["href"]) && external?(item["href"])
             item["target"] = "_blank"
-            item["rel"] = "noopener noreferrer"
+            item["rel"]    = "noopener noreferrer"
             if should_add_css_class?
-              existing_classes = get_css_classes(item.to_s).to_s
-              item["class"] = css_classes_to_add
+              existing_classes = get_css_classes(item)
+              existing_classes = " " +existing_classes unless existing_classes.to_s.empty?
+              item["class"] = css_classes_to_add.to_s + existing_classes
+            else
+              item["class"] = css_classes_to_add.to_s
             end
           end
         end
@@ -124,11 +127,7 @@ module Jekyll
       #
       # link - an anchor tag.
       def get_css_classes(link)
-        if class_attribute?(link)
-          classes = %r!/.*class="(.*)".*/!.match(link.to_s)
-          return classes[1]
-        end
-        false
+        link["class"].to_s
       end
 
       # Private: Checks if the link contains the class attribute.

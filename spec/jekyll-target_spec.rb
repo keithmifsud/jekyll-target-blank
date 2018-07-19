@@ -173,11 +173,9 @@ RSpec.describe(Jekyll::TargetBlank) do
       expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="some-class">Google</a>.'))
     end
 
-=begin
     it "should add the CSS class specified in config even when the link already has a CSS class specified" do
-      expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('Link to <a href="https://google.com" class="ext-link some-class" target="_blank" rel="noopener noreferrer">Google</a>.'))
+      expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('<a href="https://google.com" class="some-class ext-link" target="_blank" rel="noopener noreferrer">Link with the css class specified in config</a>.'))
     end
-=end
 
 
     #
