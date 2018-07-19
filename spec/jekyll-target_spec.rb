@@ -185,6 +185,15 @@ RSpec.describe(Jekyll::TargetBlank) do
     # new context for when both specified css class and class to add are in config. With one or more css classes on both config and the links.
   end
 
+  context "Adds more than one CSS classes to the links" do
+    let(:target_blank_add_css_classes) { ["some-class", "other-some-class", "another-some-class" ] }
+    let(:config_overrides) do
+      { "target-blank" => { "add_css_class" => target_blank_add_css_classes } }
+    end
+
+
+  end
+
   private
 
   def post_with_layout_result
