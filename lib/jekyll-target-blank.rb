@@ -68,7 +68,7 @@ module Jekyll
             item["rel"]    = "noopener noreferrer"
             if should_add_css_class?
               existing_classes = get_css_classes(item)
-              existing_classes = " " +existing_classes unless existing_classes.to_s.empty?
+              existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
               item["class"] = css_classes_to_add.to_s + existing_classes
             end
           end

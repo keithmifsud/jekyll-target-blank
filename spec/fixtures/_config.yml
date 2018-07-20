@@ -2,3 +2,5 @@ url: https://keith-mifsud.me
 collections:
   docs:
     output: true
+target-blank:
+  add_css_class: some-class other-some-class another-some-class

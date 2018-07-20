@@ -4,6 +4,13 @@ RSpec.describe(Jekyll::TargetBlank) do
   Jekyll.logger.log_level = :error
 
   let(:config_overrides) { {} }
+  let(:config_overrides) do
+    {
+        "url" =>  "https://keith-mifsud.me",
+        "collections" => { "docs" => { "output" => "true" } },
+        "target-blank" => { "add_css_class" => false }
+    }
+  end
   let(:configs) do
     Jekyll.configuration(config_overrides.merge(
       {
@@ -186,8 +193,9 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   context "Adds more than one CSS classes to the links" do
+    let(:config_overrides) { {} }
     let(:config_overrides) do
-      { "target-blank" => { "add_css_class" =>  "some-class other-some-class another-some-class" }}
+      { "target-blank" => { "add_css_class" => "some-class other-some-class another-some-class" }}
     end
 
     it "should add the CSS classes specified in config" do
