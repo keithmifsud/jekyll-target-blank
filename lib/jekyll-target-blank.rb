@@ -114,7 +114,7 @@ module Jekyll
           link_classes = link_classes.split(" ")
           contained    = false
           link_classes.each do |name|
-            contained = true unless name != specified_class_name
+            contained = true unless name != specified_class_name_from_config
           end
           return contained
         end
@@ -137,7 +137,7 @@ module Jekyll
 
       # Private: Fetches the specified css class name
       # from config.
-      def specified_class_name
+      def specified_class_name_from_config
         target_blank_config = @config["target-blank"]
         target_blank_config.fetch("css_class")
       end
