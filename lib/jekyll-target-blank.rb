@@ -67,7 +67,7 @@ module Jekyll
             item["target"] = "_blank"
             item["rel"]    = "noopener noreferrer"
             if should_add_css_class?
-              existing_classes = get_css_classes(item)
+              existing_classes = get_existing_css_classes(item)
               existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
               item["class"] = css_classes_to_add.to_s + existing_classes
             end
@@ -109,7 +109,7 @@ module Jekyll
       #
       # link - the url under test.
       def includes_specified_css_class?(link)
-        link_classes = get_css_classes(link)
+        link_classes = get_existing_css_classes(link)
         if link_classes
           link_classes = link_classes.split(" ")
           contained    = false
@@ -124,7 +124,7 @@ module Jekyll
       # Private: Gets the the css classes of the link.
       #
       # link - an anchor tag.
-      def get_css_classes(link)
+      def get_existing_css_classes(link)
         link["class"].to_s
       end
 
