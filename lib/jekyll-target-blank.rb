@@ -148,13 +148,13 @@ module Jekyll
         when nil, NilClass
           false
         else
-          config.fetch("add_css_class", false)
+          config.fetch("add_css_classes", false)
         end
       end
 
       def css_classes_to_add
         config = @config["target-blank"]
-        config.fetch("add_css_class")
+        config.fetch("add_css_classes")
       end
     end
   end
