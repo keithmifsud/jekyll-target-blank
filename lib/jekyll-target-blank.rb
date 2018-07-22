@@ -76,6 +76,16 @@ module Jekyll
         content.to_html
       end
 
+      # Private: Determines of the link should be processed.  
+      #
+      # link = Nokogiri node.
+      def processable_link(link)
+        false unless not_mailto_link?(link) && external?(link)
+        if css_class_name_specified_in_config?(link)
+          true unless includes_specified_css_class?(link)
+        end
+      end
+
       # Private: Adds a target="_blank" to the link.
       #
       # link = Nokogiri node.
