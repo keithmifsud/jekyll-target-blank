@@ -67,82 +67,88 @@ RSpec.describe(Jekyll::TargetBlank) do
     site.render
   end
 
-  it "should add target attribute to external markdown link" do
-    expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>.'))
+  context "Without entries in config file" do
+    let(:config_overrides) do
+      { "target-blank" => { "add_css_class" => false } }
+    end
+
+    it "should add target attribute to external markdown link" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>.'))
+    end
+
+    it "should add target attribute to multiple external markdown links" do
+      expect(post_with_multiple_external_markdown_links.output).to include('<p>This post contains three links. The first link is to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>, the second link is, well, to <a href="https://keithmifsud.github.io" target="_blank" rel="noopener noreferrer">my website</a> and since <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a> is so awesome, why not link to them too?</p>')
+    end
+
+    it "should not add target attribute to relative markdown link" do
+      expect(post_with_relative_markdown_link.output).to include(para('Link to <a href="/contact">contact page</a>.'))
+
+      expect(post_with_relative_markdown_link.output).to_not include(para('Link to <a href="/contact" target="_blank" rel="noopener noreferrer">contact page</a>'))
+    end
+
+    it "should not add target attribute to absolute internal link" do
+      expect(post_with_absolute_internal_markdown_link.output).to include('<p>This is an absolute internal <a href="https://keith-mifsud.me/contact">link</a>.</p>
+  ')
+    end
+
+    it "should correctly handle existing html anchor tag" do
+      expect(post_with_html_anchor_tag.output).to include('<p>This is an <a href="https://google.com" target="_blank" rel="noopener noreferrer">anchor tag</a>.</p>
+  ')
+    end
+
+    it "should not interfere with plain text link" do
+      expect(post_with_plain_text_link.output).to include("<p>This is a plain text link to https://google.com.</p>")
+    end
+
+    it "should process external links in collections" do
+      expect(document_with_a_processable_link.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>
+  ')
+    end
+
+    it "should process external links in pages" do
+      expect(site.pages.first.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>')
+    end
+
+    it "should not process links in non html files" do
+      expect(text_file.output).to eq("Valid [link](https://google.com).")
+    end
+
+    it "should not process link in code block but process link outside of block" do
+      expect(post_with_code_block.output).to include('<span class="s1">\'https://google.com\'</span>')
+
+      expect(post_with_code_block.output).not_to include('<span class="s1"><a href="https://google.com" target="_blank">https://google.com</a></span>')
+
+      expect(post_with_code_block.output).to include('<p>Valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a></p>')
+    end
+
+    it "should not break layouts" do
+      expect(site.pages.first.output).to include('<html lang="en-US">')
+      expect(site.pages.first.output).to include('<body class="wrap">')
+    end
+
+    it "should not interfere with liquid tags" do
+      expect(document_with_liquid_tag.output).to include('<p>This <a href="/docs/document-with-liquid-tag.html">_docs/document-with-liquid-tag.md</a> is a document with a liquid tag.</p>')
+    end
+
+    it "should not interfere with includes" do
+      expect(document_with_include.output).to include("<p>This is a document with an include: This is an include.</p>")
+    end
+
+    it "should not break layout content" do
+      expect(site.pages.first.output).to include("<div>Layout content started.</div>")
+
+      expect(site.pages.first.output).to include("<div>Layout content ended.</div>")
+    end
+
+    it "should not duplicate post content" do
+      expect(post_with_external_markdown_link.output).to eq(post_with_layout_result)
+    end
+
+    it "should ignore mailto links" do
+      expect(post_with_mailto_link.output).to include(para('This is a <a href="mailto:mifsud.k@gmail.com?Subject=Just%20an%20email">mailto link</a>.'))
+    end
   end
 
-  it "should add target attribute to multiple external markdown links" do
-    expect(post_with_multiple_external_markdown_links.output).to include('<p>This post contains three links. The first link is to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>, the second link is, well, to <a href="https://keithmifsud.github.io" target="_blank" rel="noopener noreferrer">my website</a> and since <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a> is so awesome, why not link to them too?</p>')
-  end
-
-  it "should not add target attribute to relative markdown link" do
-    expect(post_with_relative_markdown_link.output).to include(para('Link to <a href="/contact">contact page</a>.'))
-
-    expect(post_with_relative_markdown_link.output).to_not include(para('Link to <a href="/contact" target="_blank" rel="noopener noreferrer">contact page</a>'))
-  end
-
-  it "should not add target attribute to absolute internal link" do
-    expect(post_with_absolute_internal_markdown_link.output).to include('<p>This is an absolute internal <a href="https://keith-mifsud.me/contact">link</a>.</p>
-')
-  end
-
-  it "should correctly handle existing html anchor tag" do
-    expect(post_with_html_anchor_tag.output).to include('<p>This is an <a href="https://google.com" target="_blank" rel="noopener noreferrer">anchor tag</a>.</p>
-')
-  end
-
-  it "should not interfere with plain text link" do
-    expect(post_with_plain_text_link.output).to include("<p>This is a plain text link to https://google.com.</p>")
-  end
-
-  it "should process external links in collections" do
-    expect(document_with_a_processable_link.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>
-')
-  end
-
-  it "should process external links in pages" do
-    expect(site.pages.first.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>')
-  end
-
-  it "should not process links in non html files" do
-    expect(text_file.output).to eq("Valid [link](https://google.com).")
-  end
-
-  it "should not process link in code block but process link outside of block" do
-    expect(post_with_code_block.output).to include("<span class=\"s1\">'https://google.com'</span>")
-
-    expect(post_with_code_block.output).not_to include("<span class=\"s1\"><a href=\"https://google.com\" target=\"_blank\">https://google.com</a></span>")
-
-    expect(post_with_code_block.output).to include('<p>Valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a></p>
-')
-  end
-
-  it "should not break layouts" do
-    expect(site.pages.first.output).to include('<html lang="en-US">')
-    expect(site.pages.first.output).to include('<body class="wrap">')
-  end
-
-  it "should not interfere with liquid tags" do
-    expect(document_with_liquid_tag.output).to include('<p>This <a href="/docs/document-with-liquid-tag.html">_docs/document-with-liquid-tag.md</a> is a document with a liquid tag.</p>')
-  end
-
-  it "should not interfere with includes" do
-    expect(document_with_include.output).to include("<p>This is a document with an include: This is an include.</p>")
-  end
-
-  it "should not break layout content" do
-    expect(site.pages.first.output).to include("<div>Layout content started.</div>")
-
-    expect(site.pages.first.output).to include("<div>Layout content ended.</div>")
-  end
-
-  it "should not duplicate post content" do
-    expect(post_with_external_markdown_link.output).to eq(post_with_layout_result)
-  end
-
-  it "should ignore mailto links" do
-    expect(post_with_mailto_link.output).to include(para('This is a <a href="mailto:mifsud.k@gmail.com?Subject=Just%20an%20email">mailto link</a>.'))
-  end
 
   context "With a specified css class name" do
     let(:target_blank_css_class) { "ext-link" }
