@@ -100,8 +100,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
 
     it "should process external links in collections" do
-      expect(document_with_a_processable_link.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>
-  ')
+      expect(document_with_a_processable_link.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>')
     end
 
     it "should process external links in pages" do
