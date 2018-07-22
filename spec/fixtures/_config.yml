@@ -3,4 +3,4 @@ collections:
   docs:
     output: true
 target-blank:
-  add_css_class: some-class other-some-class another-some-class
+  add_css_classes: some-class other-some-class another-some-class
