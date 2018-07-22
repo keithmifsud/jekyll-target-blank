@@ -69,7 +69,7 @@ module Jekyll
             if should_add_css_class?
               existing_classes = get_existing_css_classes(item)
               existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
-              item["class"] = css_classes_to_add.to_s + existing_classes
+              item["class"] = css_classes_to_add_from_config.to_s + existing_classes
             end
           end
         end
@@ -152,7 +152,7 @@ module Jekyll
         end
       end
 
-      def css_classes_to_add
+      def css_classes_to_add_from_config
         config = @config["target-blank"]
         config.fetch("add_css_classes")
       end
