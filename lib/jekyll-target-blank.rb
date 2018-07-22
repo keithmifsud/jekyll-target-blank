@@ -27,10 +27,10 @@ module Jekyll
                          end
       end
 
-      # Public: Determines if the content should be processed.
+      # Public: Determines if the document should be processed.
       #
       # doc - the document being processes.
-      def processable?(doc)
+      def document_processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
             doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
       end
@@ -176,5 +176,5 @@ end
 
 # Hooks into Jekyll's post_render event.
 Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
-  Jekyll::TargetBlank.process(doc) if Jekyll::TargetBlank.processable?(doc)
+  Jekyll::TargetBlank.process(doc) if Jekyll::TargetBlank.document_processable?(doc)
 end
