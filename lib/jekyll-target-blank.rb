@@ -66,7 +66,7 @@ module Jekyll
           elsif not_mailto_link?(item["href"]) && external?(item["href"])
             item["target"] = "_blank"
             item["rel"]    = "noopener noreferrer"
-            if should_add_css_class?
+            if should_add_css_classes?
               existing_classes = get_existing_css_classes(item)
               existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
               item["class"] = css_classes_to_add_from_config.to_s + existing_classes
@@ -142,7 +142,7 @@ module Jekyll
         target_blank_config.fetch("css_class")
       end
 
-      def should_add_css_class?
+      def should_add_css_classes?
         config = @config["target-blank"]
         case config
         when nil, NilClass
