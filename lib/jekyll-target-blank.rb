@@ -57,7 +57,7 @@ module Jekyll
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css("a[href]")
         anchors.each do |item|
-          if css_class_name_specified?
+          if css_class_name_specified_in_config?
             if not_mailto_link?(item["href"]) && external?(item["href"])
               if includes_specified_css_class?(item)
                 item["target"] = "_blank"
@@ -94,7 +94,7 @@ module Jekyll
       end
 
       # Private: Checks if a css class name is specified in config
-      def css_class_name_specified?
+      def css_class_name_specified_in_config?
         target_blank_config = @config["target-blank"]
         case target_blank_config
         when nil, NilClass
