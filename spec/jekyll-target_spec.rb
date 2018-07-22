@@ -195,10 +195,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   context "When more than one CSS classes are specified in config" do
-    let(:target_blank_add_css_class) { "some-class other-some-class another-some-class" }
-    let(:config_overrides) do
-      { "target-blank" => { "add_css_class" => target_blank_add_css_class } }
-    end
+
     it "should add the CSS classes specified in config" do
       expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="some-class other-some-class another-some-class">Google</a>.'))
     end
