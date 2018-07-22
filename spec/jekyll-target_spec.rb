@@ -91,8 +91,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
 
     it "should correctly handle existing html anchor tag" do
-      expect(post_with_html_anchor_tag.output).to include('<p>This is an <a href="https://google.com" target="_blank" rel="noopener noreferrer">anchor tag</a>.</p>
-  ')
+      expect(post_with_html_anchor_tag.output).to include('<p>This is an <a href="https://google.com" target="_blank" rel="noopener noreferrer">anchor tag</a>.</p>')
     end
 
     it "should not interfere with plain text link" do
