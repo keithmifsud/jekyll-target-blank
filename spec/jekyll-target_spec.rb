@@ -174,7 +174,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
   end
 
-  context "Adds a CSS class to the links" do
+  context "Adds a CSS classes to the links" do
     let(:target_blank_add_css_class) { "some-class" }
     let(:config_overrides) do
       { "target-blank" => { "add_css_classes" => target_blank_add_css_class } }
