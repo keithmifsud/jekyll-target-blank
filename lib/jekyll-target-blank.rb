@@ -65,7 +65,7 @@ module Jekyll
             end
           elsif not_mailto_link?(item["href"]) && external?(item["href"])
             add_target_blank_attribute(item)
-            item["rel"]    = "noopener noreferrer"
+            add_default_rel_attributes(item)
             if should_add_css_classes?
               existing_classes = get_existing_css_classes(item)
               existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
@@ -81,6 +81,13 @@ module Jekyll
       # link = Nokogiri node.
       def add_target_blank_attribute(link)
         link["target"] = "_blank"
+      end
+
+      # Private: Adds the default rel attribute and values to the link.
+      #
+      # link = Nokogiri node.
+      def add_default_rel_attributes(link)
+        link["rel"] = "noopener noreferrer"
       end
 
       # Private: Checks if the link is a mailto url.
