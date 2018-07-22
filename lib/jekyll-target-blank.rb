@@ -29,7 +29,7 @@ module Jekyll
 
       # Public: Determines if the document should be processed.
       #
-      # doc - the document being processes.
+      # doc - the document being processed.
       def document_processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
             doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
@@ -38,7 +38,7 @@ module Jekyll
       private
 
       # Private: Processes html content which has a body opening tag.
-      #
+      #1
       # content - html to be processes.
       def process_html(content)
         head, opener, tail  = content.output.partition(OPENING_BODY_TAG_REGEX)
