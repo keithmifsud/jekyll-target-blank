@@ -87,8 +87,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
 
     it "should not add target attribute to absolute internal link" do
-      expect(post_with_absolute_internal_markdown_link.output).to include('<p>This is an absolute internal <a href="https://keith-mifsud.me/contact">link</a>.</p>
-  ')
+      expect(post_with_absolute_internal_markdown_link.output).to include('<p>This is an absolute internal <a href="https://keith-mifsud.me/contact">link</a>.</p>')
     end
 
     it "should correctly handle existing html anchor tag" do
