@@ -68,7 +68,7 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   context "Without entries in config file" do
     let(:config_overrides) do
-      { "target-blank" => { "add_css_class" => false } }
+      { "target-blank" => { "add_css_classes" => false } }
     end
 
     it "should add target attribute to external markdown link" do
@@ -150,7 +150,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     let(:target_blank_css_class) { "ext-link" }
     let(:config_overrides) do
       { "target-blank" => { "css_class" => target_blank_css_class,
-                            "add_css_class" => false }
+                            "add_css_classes" => false }
       }
     end
 
@@ -177,7 +177,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   context "Adds a CSS class to the links" do
     let(:target_blank_add_css_class) { "some-class" }
     let(:config_overrides) do
-      { "target-blank" => { "add_css_class" => target_blank_add_css_class } }
+      { "target-blank" => { "add_css_classes" => target_blank_add_css_class } }
     end
 
     it "should add the CSS class specified in config" do
