@@ -149,7 +149,9 @@ RSpec.describe(Jekyll::TargetBlank) do
   context "With a specified css class name" do
     let(:target_blank_css_class) { "ext-link" }
     let(:config_overrides) do
-      { "target-blank" => { "css_class" => target_blank_css_class } }
+      { "target-blank" => { "css_class" => target_blank_css_class,
+                            "add_css_class" => false }
+      }
     end
 
 
