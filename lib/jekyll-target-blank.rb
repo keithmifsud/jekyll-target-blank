@@ -60,11 +60,11 @@ module Jekyll
           if css_class_name_specified_in_config?
             if not_mailto_link?(item["href"]) && external?(item["href"])
               if includes_specified_css_class?(item)
-                item["target"] = "_blank"
+                add_target_blank_attribute(item)
               end
             end
           elsif not_mailto_link?(item["href"]) && external?(item["href"])
-            item["target"] = "_blank"
+            add_target_blank_attribute(item)
             item["rel"]    = "noopener noreferrer"
             if should_add_css_classes?
               existing_classes = get_existing_css_classes(item)
@@ -74,6 +74,13 @@ module Jekyll
           end
         end
         content.to_html
+      end
+
+      # Private: Adds a target="_blank" to the link.
+      #
+      # link = Nokogiri node.
+      def add_target_blank_attribute(link)
+        link["target"] = "_blank"
       end
 
       # Private: Checks if the link is a mailto url.
