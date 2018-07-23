@@ -4,6 +4,12 @@ RSpec.describe(Jekyll::TargetBlank) do
   Jekyll.logger.log_level = :error
 
   let(:config_overrides) { {} }
+  let(:config_overrides) do
+    {
+      "url"         => "https://keith-mifsud.me",
+      "collections" => { "docs" => { "output" => "true" } },
+    }
+  end
   let(:configs) do
     Jekyll.configuration(config_overrides.merge(
       {
@@ -42,6 +48,12 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   let(:post_with_mailto_link) { find_by_title(posts, "Post with mailto link") }
 
+  let(:post_with_external_html_link_and_random_css_classes) { find_by_title(posts, "Post with external html link and random css classes") }
+
+  let(:post_with_html_link_containing_the_specified_css_class) { find_by_title(posts, "Post with html link containing the specified css class") }
+
+  let(:post_with_external_link_containing_the_specified_css_class_and_other_css_classes) { find_by_title(posts, "Post with external link containing the specified css class and other css classes") }
+
   # define common wrappers.
   def para(content)
     "<p>#{content}</p>"
@@ -54,94 +66,95 @@ RSpec.describe(Jekyll::TargetBlank) do
     site.render
   end
 
-  it "should add target attribute to external markdown link" do
-    expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>.'))
-  end
+  context "Without entries in config file" do
+    let(:config_overrides) do
+      { "target-blank" => { "add_css_classes" => false } }
+    end
 
-  it "should add target attribute to multiple external markdown links" do
-    expect(post_with_multiple_external_markdown_links.output).to include('<p>This post contains three links. The first link is to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>, the second link is, well, to <a href="https://keithmifsud.github.io" target="_blank" rel="noopener noreferrer">my website</a> and since <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a> is so awesome, why not link to them too?</p>')
-  end
+    it "should add target attribute to external markdown link" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>.'))
+    end
 
-  it "should not add target attribute to relative markdown link" do
-    expect(post_with_relative_markdown_link.output).to include(para('Link to <a href="/contact">contact page</a>.'))
+    it "should add target attribute to multiple external markdown links" do
+      expect(post_with_multiple_external_markdown_links.output).to include('<p>This post contains three links. The first link is to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>, the second link is, well, to <a href="https://keithmifsud.github.io" target="_blank" rel="noopener noreferrer">my website</a> and since <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a> is so awesome, why not link to them too?</p>')
+    end
 
-    expect(post_with_relative_markdown_link.output).to_not include(para('Link to <a href="/contact" target="_blank" rel="noopener noreferrer">contact page</a>'))
-  end
+    it "should not add target attribute to relative markdown link" do
+      expect(post_with_relative_markdown_link.output).to include(para('Link to <a href="/contact">contact page</a>.'))
 
-  it "should not add target attribute to absolute internal link" do
-    expect(post_with_absolute_internal_markdown_link.output).to include('<p>This is an absolute internal <a href="https://keith-mifsud.me/contact">link</a>.</p>
-')
-  end
+      expect(post_with_relative_markdown_link.output).to_not include(para('Link to <a href="/contact" target="_blank" rel="noopener noreferrer">contact page</a>'))
+    end
 
-  it "should correctly handle existing html anchor tag" do
-    expect(post_with_html_anchor_tag.output).to include('<p>This is an <a href="https://google.com" target="_blank" rel="noopener noreferrer">anchor tag</a>.</p>
-')
-  end
+    it "should not add target attribute to absolute internal link" do
+      expect(post_with_absolute_internal_markdown_link.output).to include('<p>This is an absolute internal <a href="https://keith-mifsud.me/contact">link</a>.</p>')
+    end
 
-  it "should not interfere with plain text link" do
-    expect(post_with_plain_text_link.output).to include("<p>This is a plain text link to https://google.com.</p>")
-  end
+    it "should correctly handle existing html anchor tag" do
+      expect(post_with_html_anchor_tag.output).to include('<p>This is an <a href="https://google.com" target="_blank" rel="noopener noreferrer">anchor tag</a>.</p>')
+    end
 
-  it "should process external links in collections" do
-    expect(document_with_a_processable_link.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>
-')
-  end
+    it "should not interfere with plain text link" do
+      expect(post_with_plain_text_link.output).to include("<p>This is a plain text link to https://google.com.</p>")
+    end
 
-  it "should process external links in pages" do
-    expect(site.pages.first.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>')
-  end
+    it "should process external links in collections" do
+      expect(document_with_a_processable_link.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>')
+    end
 
-  it "should not process links in non html files" do
-    expect(text_file.output).to eq("Valid [link](https://google.com).")
-  end
+    it "should process external links in pages" do
+      expect(site.pages.first.output).to include('<p>This is a valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a>.</p>')
+    end
 
-  it "should not process link in code block but process link outside of block" do
-    expect(post_with_code_block.output).to include("<span class=\"s1\">'https://google.com'</span>")
+    it "should not process links in non html files" do
+      expect(text_file.output).to eq("Valid [link](https://google.com).")
+    end
 
-    expect(post_with_code_block.output).not_to include("<span class=\"s1\"><a href=\"https://google.com\" target=\"_blank\">https://google.com</a></span>")
+    it "should not process link in code block but process link outside of block" do
+      expect(post_with_code_block.output).to include('<span class="s1">\'https://google.com\'</span>')
 
-    expect(post_with_code_block.output).to include('<p>Valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a></p>
-')
-  end
+      expect(post_with_code_block.output).not_to include('<span class="s1"><a href="https://google.com" target="_blank">https://google.com</a></span>')
 
-  it "should not break layouts" do
-    expect(site.pages.first.output).to include('<html lang="en-US">')
-    expect(site.pages.first.output).to include('<body class="wrap">')
-  end
+      expect(post_with_code_block.output).to include('<p>Valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a></p>')
+    end
 
-  it "should not interfere with liquid tags" do
-    expect(document_with_liquid_tag.output).to include('<p>This <a href="/docs/document-with-liquid-tag.html">_docs/document-with-liquid-tag.md</a> is a document with a liquid tag.</p>')
-  end
+    it "should not break layouts" do
+      expect(site.pages.first.output).to include('<html lang="en-US">')
+      expect(site.pages.first.output).to include('<body class="wrap">')
+    end
 
-  it "should not interfere with includes" do
-    expect(document_with_include.output).to include("<p>This is a document with an include: This is an include.</p>")
-  end
+    it "should not interfere with liquid tags" do
+      expect(document_with_liquid_tag.output).to include('<p>This <a href="/docs/document-with-liquid-tag.html">_docs/document-with-liquid-tag.md</a> is a document with a liquid tag.</p>')
+    end
 
-  it "should not break layout content" do
-    expect(site.pages.first.output).to include("<div>Layout content started.</div>")
+    it "should not interfere with includes" do
+      expect(document_with_include.output).to include("<p>This is a document with an include: This is an include.</p>")
+    end
 
-    expect(site.pages.first.output).to include("<div>Layout content ended.</div>")
-  end
+    it "should not break layout content" do
+      expect(site.pages.first.output).to include("<div>Layout content started.</div>")
 
-  it "should not duplicate post content" do
-    expect(post_with_external_markdown_link.output).to eq(post_with_layout_result)
-  end
+      expect(site.pages.first.output).to include("<div>Layout content ended.</div>")
+    end
 
-  it "should ignore mailto links" do
-    expect(post_with_mailto_link.output).to include(para('This is a <a href="mailto:mifsud.k@gmail.com?Subject=Just%20an%20email">mailto link</a>.'))
+    it "should not duplicate post content" do
+      expect(post_with_external_markdown_link.output).to eq(post_with_layout_result)
+    end
+
+    it "should ignore mailto links" do
+      expect(post_with_mailto_link.output).to include(para('This is a <a href="mailto:mifsud.k@gmail.com?Subject=Just%20an%20email">mailto link</a>.'))
+    end
   end
 
   context "With a specified css class name" do
     let(:target_blank_css_class) { "ext-link" }
     let(:config_overrides) do
-      { "target-blank" => { "css_class" => target_blank_css_class } }
+      {
+        "target-blank" => {
+          "css_class"       => target_blank_css_class,
+          "add_css_classes" => false,
+        },
+      }
     end
-
-    let(:post_with_external_html_link_and_random_css_classes) { find_by_title(posts, "Post with external html link and random css classes") }
-
-    let(:post_with_html_link_containing_the_specified_css_class) { find_by_title(posts, "Post with html link containing the specified css class") }
-
-    let(:post_with_external_link_containing_the_specified_css_class_and_other_css_classes) { find_by_title(posts, "Post with external link containing the specified css class and other css classes") }
 
     it "should not add target attribute to external markdown link that does not have the specified css class" do
       expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank">Google</a>.'))
@@ -154,11 +167,44 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
 
     it "should add target attribute to an external link containing the specified css class" do
-      expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('<a href="https://google.com" class="ext-link" target="_blank">Link with the css class specified in config</a>.'))
+      expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('<a href="https://google.com" class="ext-link" target="_blank" rel="noopener noreferrer">Link with the css class specified in config</a>.'))
     end
 
     it "should add target attribute to an external link containing the specified css class even when other css classes are specified" do
-      expect(post_with_external_link_containing_the_specified_css_class_and_other_css_classes.output).to include(para('This is <a href="https://not-keith-mifsud.me" class="random-class ext-link another-random-class" target="_blank">a link containing the specified css class and two other random css classes</a>.'))
+      expect(post_with_external_link_containing_the_specified_css_class_and_other_css_classes.output).to include(para('This is <a href="https://not-keith-mifsud.me" class="random-class ext-link another-random-class" target="_blank" rel="noopener noreferrer">a link containing the specified css class and two other random css classes</a>.'))
+    end
+  end
+
+  context "Adds a CSS classes to the links" do
+    let(:target_blank_add_css_class) { "some-class" }
+    let(:config_overrides) do
+      { "target-blank" => { "add_css_classes" => target_blank_add_css_class } }
+    end
+
+    it "should add the CSS class specified in config" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="some-class">Google</a>.'))
+    end
+
+    it "should add the CSS class specified in config even when the link already has a CSS class specified" do
+      expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('<a href="https://google.com" class="some-class ext-link" target="_blank" rel="noopener noreferrer">Link with the css class specified in config</a>.'))
+    end
+
+    it "should add the CSS class specified in config even when the link has more than CSS classes already included" do
+      expect(post_with_external_link_containing_the_specified_css_class_and_other_css_classes.output).to include(para('This is <a href="https://not-keith-mifsud.me" class="some-class random-class ext-link another-random-class" target="_blank" rel="noopener noreferrer">a link containing the specified css class and two other random css classes</a>.'))
+    end
+  end
+
+  context "When more than one CSS classes are specified in config" do
+    it "should add the CSS classes specified in config" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="some-class other-some-class another-some-class">Google</a>.'))
+    end
+
+    it "should add the CSS classes specified in config even when the link already has a CSS class included" do
+      expect(post_with_html_link_containing_the_specified_css_class.output).to include(para('<a href="https://google.com" class="some-class other-some-class another-some-class ext-link" target="_blank" rel="noopener noreferrer">Link with the css class specified in config</a>.'))
+    end
+
+    it "should add the CSS classes specified in config even when the link already has more than one CSS classes included" do
+      expect(post_with_external_link_containing_the_specified_css_class_and_other_css_classes.output).to include(para('This is <a href="https://not-keith-mifsud.me" class="some-class other-some-class another-some-class random-class ext-link another-random-class" target="_blank" rel="noopener noreferrer">a link containing the specified css class and two other random css classes</a>.'))
     end
   end
 

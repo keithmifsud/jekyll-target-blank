@@ -67,6 +67,8 @@ will be generated as:
 
 ### Configuration
 
+#### Override the default behaviour
+
 You can override the default behaviour and only force external links to open in new browser if they have a css class name with the same value as the one listed in the Jekyll `_config.yml` file.
 
 To override the automation, add the following entry in your site's `config.yml` file, specifying which css class a link should have for it to be forced to open in a new browser:
@@ -77,6 +79,17 @@ target-blank:
 ```
 
 With the above setting, only links containing the `class="ext-link"` will be forced to open in a new browser.
+
+#### Automatically add additional CSS Classes
+
+You can also automatically add additional CSS classes to qualifying external links. This is useful if say you want to add CSS styling to external links such as automatically displaying an icon to show the reader that the link will open in a new browser.
+
+You can add one or more __space__ separated CSS classes in `_config.yml` like so:
+
+ ```yaml
+ target-blank:
+     add_css_classes: css-class-one css-class-two
+ ```
  
 
 ## Support

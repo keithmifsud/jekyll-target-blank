@@ -15,10 +15,24 @@ module Jekyll
       #
       # content - the document or page to be processes.
       def process(content)
-        @site_url = content.site.config["url"]
-        @config   = content.site.config
+        @site_url                     = content.site.config["url"]
+        @config                       = content.site.config
+        @requires_specified_css_class = false
+        @required_css_class_name      = nil
+        @should_add_css_classes       = false
+        @css_classes_to_add           = nil
 
         return unless content.output.include?("<a")
+
+        if css_class_name_specified_in_config?
+          @requires_specified_css_class = true
+          @required_css_class_name      = specified_class_name_from_config
+        end
+
+        if should_add_css_classes?
+          @should_add_css_classes = true
+          @css_classes_to_add = css_classes_to_add_from_config.to_s
+        end
 
         content.output = if content.output.include? BODY_START_TAG
                            process_html(content)
@@ -27,10 +41,10 @@ module Jekyll
                          end
       end
 
-      # Public: Determines if the content should be processed.
+      # Public: Determines if the document should be processed.
       #
-      # doc - the document being processes.
-      def processable?(doc)
+      # doc - the document being processed.
+      def document_processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
           doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
       end
@@ -57,18 +71,51 @@ module Jekyll
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css("a[href]")
         anchors.each do |item|
-          if css_class_name_specified?
-            if not_mailto_link?(item["href"]) && external?(item["href"])
-              if includes_specified_css_class?(item.to_s)
-                item["target"] = "_blank"
-              end
-            end
-          elsif not_mailto_link?(item["href"]) && external?(item["href"])
-            item["target"] = "_blank"
-            item["rel"] = "noopener noreferrer"
+          if processable_link?(item)
+            add_target_blank_attribute(item)
+            add_default_rel_attributes(item)
+            add_css_classes_if_required(item)
           end
+          next
         end
         content.to_html
+      end
+
+      # Private: Determines of the link should be processed.
+      #
+      # link = Nokogiri node.
+      def processable_link?(link)
+        if not_mailto_link?(link["href"]) && external?(link["href"])
+          if @requires_specified_css_class
+            return false unless includes_specified_css_class?(link)
+          end
+          true
+        end
+      end
+
+      # Private: adds the cs classes if set in config.
+      #
+      # link = Nokogiri node.
+      def add_css_classes_if_required(link)
+        if @should_add_css_classes
+          existing_classes = get_existing_css_classes(link)
+          existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
+          link["class"]    = @css_classes_to_add + existing_classes
+        end
+      end
+
+      # Private: Adds a target="_blank" to the link.
+      #
+      # link = Nokogiri node.
+      def add_target_blank_attribute(link)
+        link["target"] = "_blank"
+      end
+
+      # Private: Adds the default rel attribute and values to the link.
+      #
+      # link = Nokogiri node.
+      def add_default_rel_attributes(link)
+        link["rel"] = "noopener noreferrer"
       end
 
       # Private: Checks if the link is a mailto url.
@@ -89,7 +136,7 @@ module Jekyll
       end
 
       # Private: Checks if a css class name is specified in config
-      def css_class_name_specified?
+      def css_class_name_specified_in_config?
         target_blank_config = @config["target-blank"]
         case target_blank_config
         when nil, NilClass
@@ -104,12 +151,12 @@ module Jekyll
       #
       # link - the url under test.
       def includes_specified_css_class?(link)
-        link_classes = get_css_classes(link)
+        link_classes = get_existing_css_classes(link)
         if link_classes
           link_classes = link_classes.split(" ")
           contained    = false
           link_classes.each do |name|
-            contained = true unless name != specified_class_name
+            contained = true unless name != @required_css_class_name
           end
           return contained
         end
@@ -119,26 +166,40 @@ module Jekyll
       # Private: Gets the the css classes of the link.
       #
       # link - an anchor tag.
-      def get_css_classes(link)
-        if class_attribute?(link)
-          classes = %r!/.*class="(.*)".*/!.match(link.to_s)
-          return classes[1]
-        end
-        false
+      def get_existing_css_classes(link)
+        link["class"].to_s
       end
 
       # Private: Checks if the link contains the class attribute.
       #
       # link - an anchor tag.
-      def class_attribute?(link)
+      def link_has_class_attribute?(link)
         link.include?("class=")
       end
 
       # Private: Fetches the specified css class name
       # from config.
-      def specified_class_name
+      def specified_class_name_from_config
         target_blank_config = @config["target-blank"]
         target_blank_config.fetch("css_class")
+      end
+
+      # Private: Checks if it should add additional CSS classes.
+      def should_add_css_classes?
+        config = @config["target-blank"]
+        case config
+        when nil, NilClass
+          false
+        else
+          config.fetch("add_css_classes", false)
+        end
+      end
+
+      # Private: Gets the CSS classes to be added to the link from
+      # config.
+      def css_classes_to_add_from_config
+        config = @config["target-blank"]
+        config.fetch("add_css_classes")
       end
     end
   end
@@ -146,5 +207,5 @@ end
 
 # Hooks into Jekyll's post_render event.
 Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
-  Jekyll::TargetBlank.process(doc) if Jekyll::TargetBlank.processable?(doc)
+  Jekyll::TargetBlank.process(doc) if Jekyll::TargetBlank.document_processable?(doc)
 end
