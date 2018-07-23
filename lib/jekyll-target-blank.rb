@@ -89,7 +89,7 @@ module Jekyll
       def processable_link?(link)
         false unless not_mailto_link?(link) && external?(link)
         if @requires_specified_css_class
-          true unless includes_specified_css_class?(link)
+          false unless includes_specified_css_class?(link)
         end
       end
 
