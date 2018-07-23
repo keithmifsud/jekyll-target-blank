@@ -31,7 +31,7 @@ module Jekyll
 
         if should_add_css_classes?
           @should_add_css_classes = true
-          @css_classes_to_add = css_classes_to_add_from_config
+          @css_classes_to_add = css_classes_to_add_from_config.to_s
         end
 
         content.output = if content.output.include? BODY_START_TAG
@@ -104,10 +104,10 @@ module Jekyll
       #
       # link = Nokogiri node.
       def add_css_classes_if_required(link)
-        if should_add_css_classes?
+        if @should_add_css_classes
           existing_classes = get_existing_css_classes(link)
           existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
-          item["class"]    = css_classes_to_add_from_config.to_s + existing_classes
+          item["class"]    = @css_classes_to_add + existing_classes
         end
       end
 
