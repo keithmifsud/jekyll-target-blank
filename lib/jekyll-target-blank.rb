@@ -184,6 +184,7 @@ module Jekyll
         target_blank_config.fetch("css_class")
       end
 
+      # Private: Checks if it should add additional CSS classes.
       def should_add_css_classes?
         config = @config["target-blank"]
         case config
@@ -194,6 +195,8 @@ module Jekyll
         end
       end
 
+      # Private: Gets the CSS classes to be added to the link from
+      # config.
       def css_classes_to_add_from_config
         config = @config["target-blank"]
         config.fetch("add_css_classes")
