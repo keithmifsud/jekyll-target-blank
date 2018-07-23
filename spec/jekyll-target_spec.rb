@@ -7,7 +7,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   let(:config_overrides) do
     {
       "url"         => "https://keith-mifsud.me",
-      "collections" => { "docs" => { "output" => "true" } }
+      "collections" => { "docs" => { "output" => "true" } },
     }
   end
   let(:configs) do
