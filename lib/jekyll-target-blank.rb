@@ -71,13 +71,7 @@ module Jekyll
         content = Nokogiri::HTML::DocumentFragment.parse(html)
         anchors = content.css("a[href]")
         anchors.each do |item|
-          if css_class_name_specified_in_config?
-            if not_mailto_link?(item["href"]) && external?(item["href"])
-              if includes_specified_css_class?(item)
-                add_target_blank_attribute(item)
-              end
-            end
-          elsif not_mailto_link?(item["href"]) && external?(item["href"])
+          if processable_link?(item)
             add_target_blank_attribute(item)
             add_default_rel_attributes(item)
             add_css_classes_if_required(item)
@@ -90,9 +84,11 @@ module Jekyll
       #
       # link = Nokogiri node.
       def processable_link?(link)
-        false unless not_mailto_link?(link) && external?(link)
-        if @requires_specified_css_class
-          false unless includes_specified_css_class?(link)
+        if not_mailto_link?(link["href"]) && external?(link["href"])
+          if @requires_specified_css_class
+            false unless includes_specified_css_class?(link)
+          end
+          true
         end
       end
 
