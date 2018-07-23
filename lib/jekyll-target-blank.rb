@@ -19,12 +19,19 @@ module Jekyll
         @config                       = content.site.config
         @requires_specified_css_class = false
         @required_css_class_name      = nil
+        @should_add_css_classes       = false
+        @css_classes_to_add           = nil
 
         return unless content.output.include?("<a")
 
         if css_class_name_specified_in_config?
           @requires_specified_css_class = true
           @required_css_class_name      = specified_class_name_from_config
+        end
+
+        if should_add_css_classes?
+          @should_add_css_classes = true
+          @css_classes_to_add = css_classes_to_add_from_config
         end
 
         content.output = if content.output.include? BODY_START_TAG
