@@ -52,7 +52,7 @@ module Jekyll
       private
 
       # Private: Processes html content which has a body opening tag.
-      #1
+      #
       # content - html to be processes.
       def process_html(content)
         head, opener, tail  = content.output.partition(OPENING_BODY_TAG_REGEX)
