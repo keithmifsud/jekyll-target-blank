@@ -86,6 +86,17 @@ module Jekyll
         end
       end
 
+      # Private: adds the cs classes if set in config.
+      #
+      # link = Nokogiri node.
+      def add_css_classes_if_required(link)
+        if should_add_css_classes?
+          existing_classes = get_existing_css_classes(link)
+          existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
+          item["class"] = css_classes_to_add_from_config.to_s + existing_classes
+        end
+      end
+
       # Private: Adds a target="_blank" to the link.
       #
       # link = Nokogiri node.
