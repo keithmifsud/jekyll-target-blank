@@ -170,7 +170,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
 
     it "should add target attribute to an external link containing the specified css class even when other css classes are specified" do
-      expect(post_with_external_link_containing_the_specified_css_class_and_other_css_classes.output).to include(para('This is <a href="https://not-keith-mifsud.me" class="random-class ext-link another-random-class" target="_blank">a link containing the specified css class and two other random css classes</a>.'))
+      expect(post_with_external_link_containing_the_specified_css_class_and_other_css_classes.output).to include(para('This is <a href="https://not-keith-mifsud.me" class="random-class ext-link another-random-class" target="_blank" rel="noopener noreferrer">a link containing the specified css class and two other random css classes</a>.'))
     end
   end
 
