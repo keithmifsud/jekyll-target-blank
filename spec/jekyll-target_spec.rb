@@ -154,8 +154,7 @@ RSpec.describe(Jekyll::TargetBlank) do
                           }
       }
     end
-
-
+    
     it "should not add target attribute to external markdown link that does not have the specified css class" do
       expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank">Google</a>.'))
     end
