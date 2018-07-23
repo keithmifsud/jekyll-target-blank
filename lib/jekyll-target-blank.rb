@@ -15,10 +15,17 @@ module Jekyll
       #
       # content - the document or page to be processes.
       def process(content)
-        @site_url = content.site.config["url"]
-        @config   = content.site.config
+        @site_url                     = content.site.config["url"]
+        @config                       = content.site.config
+        @requires_specified_css_class = false
+        @required_css_class_name      = nil
 
         return unless content.output.include?("<a")
+
+        if css_class_name_specified_in_config?
+          @requires_specified_css_class = true
+          @required_css_class_name      = specified_class_name_from_config
+        end
 
         content.output = if content.output.include? BODY_START_TAG
                            process_html(content)
@@ -69,7 +76,7 @@ module Jekyll
             if should_add_css_classes?
               existing_classes = get_existing_css_classes(item)
               existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
-              item["class"] = css_classes_to_add_from_config.to_s + existing_classes
+              item["class"]    = css_classes_to_add_from_config.to_s + existing_classes
             end
           end
         end
@@ -81,7 +88,7 @@ module Jekyll
       # link = Nokogiri node.
       def processable_link?(link)
         false unless not_mailto_link?(link) && external?(link)
-        if css_class_name_specified_in_config?(link)
+        if css_class_name_specified_in_config?
           true unless includes_specified_css_class?(link)
         end
       end
@@ -93,7 +100,7 @@ module Jekyll
         if should_add_css_classes?
           existing_classes = get_existing_css_classes(link)
           existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
-          item["class"] = css_classes_to_add_from_config.to_s + existing_classes
+          item["class"]    = css_classes_to_add_from_config.to_s + existing_classes
         end
       end
 
@@ -149,7 +156,7 @@ module Jekyll
           link_classes = link_classes.split(" ")
           contained    = false
           link_classes.each do |name|
-            contained = true unless name != specified_class_name_from_config
+            contained = true unless name != @required_css_class_name
           end
           return contained
         end
