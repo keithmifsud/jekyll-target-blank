@@ -144,8 +144,7 @@ RSpec.describe(Jekyll::TargetBlank) do
       expect(post_with_mailto_link.output).to include(para('This is a <a href="mailto:mifsud.k@gmail.com?Subject=Just%20an%20email">mailto link</a>.'))
     end
   end
-
-
+  
   context "With a specified css class name" do
     let(:target_blank_css_class) { "ext-link" }
     let(:config_overrides) do
