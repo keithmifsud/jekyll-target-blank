@@ -76,6 +76,7 @@ module Jekyll
             add_default_rel_attributes(item)
             add_css_classes_if_required(item)
           end
+          next
         end
         content.to_html
       end
