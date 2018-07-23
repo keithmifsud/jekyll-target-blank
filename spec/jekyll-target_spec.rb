@@ -6,18 +6,18 @@ RSpec.describe(Jekyll::TargetBlank) do
   let(:config_overrides) { {} }
   let(:config_overrides) do
     {
-        "url" =>  "https://keith-mifsud.me",
+        "url"         => "https://keith-mifsud.me",
         "collections" => { "docs" => { "output" => "true" } }
     }
   end
   let(:configs) do
     Jekyll.configuration(config_overrides.merge(
-      {
-        "skip_config_files" => false,
-        "collections"       => { "docs" => { "output" => true } },
-        "source"            => fixtures_dir,
-        "destination"       => fixtures_dir("_site"),
-      }
+        {
+            "skip_config_files" => false,
+            "collections"       => { "docs" => { "output" => true } },
+            "source"            => fixtures_dir,
+            "destination"       => fixtures_dir("_site"),
+        }
     ))
   end
   let(:target_blank) { described_class }
@@ -50,9 +50,9 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   let(:post_with_external_html_link_and_random_css_classes) { find_by_title(posts, "Post with external html link and random css classes") }
 
-      let(:post_with_html_link_containing_the_specified_css_class) { find_by_title(posts, "Post with html link containing the specified css class") }
+  let(:post_with_html_link_containing_the_specified_css_class) { find_by_title(posts, "Post with html link containing the specified css class") }
 
-      let(:post_with_external_link_containing_the_specified_css_class_and_other_css_classes) { find_by_title(posts, "Post with external link containing the specified css class and other css classes") }
+  let(:post_with_external_link_containing_the_specified_css_class_and_other_css_classes) { find_by_title(posts, "Post with external link containing the specified css class and other css classes") }
 
   # define common wrappers.
   def para(content)
@@ -149,7 +149,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   context "With a specified css class name" do
     let(:target_blank_css_class) { "ext-link" }
     let(:config_overrides) do
-      { "target-blank" => { "css_class" => target_blank_css_class,
+      { "target-blank" => { "css_class"       => target_blank_css_class,
                             "add_css_classes" => false }
       }
     end
