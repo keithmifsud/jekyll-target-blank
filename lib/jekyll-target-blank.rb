@@ -80,11 +80,7 @@ module Jekyll
           elsif not_mailto_link?(item["href"]) && external?(item["href"])
             add_target_blank_attribute(item)
             add_default_rel_attributes(item)
-            if should_add_css_classes?
-              existing_classes = get_existing_css_classes(item)
-              existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
-              item["class"]    = css_classes_to_add_from_config.to_s + existing_classes
-            end
+            add_css_classes_if_required(item)
           end
         end
         content.to_html
@@ -107,7 +103,7 @@ module Jekyll
         if @should_add_css_classes
           existing_classes = get_existing_css_classes(link)
           existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
-          item["class"]    = @css_classes_to_add + existing_classes
+          link["class"]    = @css_classes_to_add + existing_classes
         end
       end
 
