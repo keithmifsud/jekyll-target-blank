@@ -217,6 +217,10 @@ RSpec.describe(Jekyll::TargetBlank) do
           },
       }
     end
+
+    it "should not add noopener attribute" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>.'))
+    end
   end
 
   private
