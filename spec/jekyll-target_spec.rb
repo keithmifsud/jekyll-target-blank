@@ -214,6 +214,7 @@ RSpec.describe(Jekyll::TargetBlank) do
       {
           "target-blank" => {
               "add_css_classes" => false,
+              "noopener" => target_blank_noopener
           },
       }
     end
