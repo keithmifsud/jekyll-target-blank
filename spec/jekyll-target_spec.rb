@@ -163,7 +163,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     it "should not add target attribute to external markdown link that does not have the specified css class even if it does have other css classes" do
       expect(post_with_external_html_link_and_random_css_classes.output).to include(para('<a href="https://google.com" class="random-class another-random-class">Link</a>.'))
 
-      expect(post_with_external_html_link_and_random_css_classes.output).to_not include('target="_blank"')
+      expect(post_with_external_html_link_and_random_css_classes.output).to_not include('target="_blank" rel="noopener noreferrer"')
     end
 
     it "should add target attribute to an external link containing the specified css class" do
