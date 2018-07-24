@@ -112,7 +112,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     it "should not process link in code block but process link outside of block" do
       expect(post_with_code_block.output).to include('<span class="s1">\'https://google.com\'</span>')
 
-      expect(post_with_code_block.output).not_to include('<span class="s1"><a href="https://google.com" target="_blank">https://google.com</a></span>')
+      expect(post_with_code_block.output).not_to include('<span class="s1"><a href="https://google.com" target="_blank" rel="noopener noreferrer">https://google.com</a></span>')
 
       expect(post_with_code_block.output).to include('<p>Valid <a href="https://google.com" target="_blank" rel="noopener noreferrer">link</a></p>')
     end
