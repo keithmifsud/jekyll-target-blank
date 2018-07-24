@@ -208,6 +208,13 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
   end
 
+  context "When noopener is set to false in config" do
+    let(:target_blank_noopener) { false }
+    let(:config_overrides) do
+      { "target_blank" => { "noopener" => target_blank_noopener } }
+    end
+  end
+
   private
 
   def post_with_layout_result
