@@ -253,11 +253,11 @@ RSpec.describe(Jekyll::TargetBlank) do
     let(:noreferrer) { false }
     let(:config_overrides) do
       {
-          "target-blank" => {
-            "add_css_classes" => false,
-            "noopener"        => noopener,
-            "noreferrer"      => noreferrer,
-          }
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "noreferrer"      => noreferrer,
+        }
       }
     end
 
