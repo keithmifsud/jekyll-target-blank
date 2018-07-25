@@ -40,6 +40,10 @@ module Jekyll
           @should_add_noopener = false
         end
 
+        if should_not_include_noreferrer?
+          @should_add_noreferrrer = false
+        end
+
         content.output = if content.output.include? BODY_START_TAG
                            process_html(content)
                          else
