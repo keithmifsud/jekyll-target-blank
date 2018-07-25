@@ -28,10 +28,7 @@ module Jekyll
 
         requires_css_class_name
 
-        if should_add_css_classes?
-          @should_add_css_classes = true
-          @css_classes_to_add     = css_classes_to_add_from_config.to_s
-        end
+        configure_adding_additional_css_classes
 
         if should_not_include_noopener?
           @should_add_noopener = false
@@ -100,12 +97,20 @@ module Jekyll
         end
       end
 
-      # Private: Handles adding the tagregt attribute of the config
+      # Private: Handles adding the target attribute of the config
       # requires a specifies class.
       def requires_css_class_name
         if css_class_name_specified_in_config?
           @requires_specified_css_class = true
           @required_css_class_name      = specified_class_name_from_config
+        end
+      end
+
+
+      def configure_adding_additional_css_classes
+        if should_add_css_classes?
+          @should_add_css_classes = true
+          @css_classes_to_add     = css_classes_to_add_from_config.to_s
         end
       end
 
