@@ -248,6 +248,10 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
   end
 
+  context "When both noopener and noreferrer values are set to false in config" do
+
+  end
+
   private
 
   def post_with_layout_result
