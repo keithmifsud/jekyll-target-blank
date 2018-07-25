@@ -30,13 +30,7 @@ module Jekyll
 
         configure_adding_additional_css_classes
 
-        if should_not_include_noopener?
-          @should_add_noopener = false
-        end
-
-        if should_not_include_noreferrer?
-          @should_add_noreferrrer = false
-        end
+        add_default_rel_attributes?
 
         content.output = if content.output.include? BODY_START_TAG
                            process_html(content)
@@ -112,6 +106,16 @@ module Jekyll
         if should_add_css_classes?
           @should_add_css_classes = true
           @css_classes_to_add     = css_classes_to_add_from_config.to_s
+        end
+      end
+
+      def add_default_rel_attributes?
+        if should_not_include_noopener?
+          @should_add_noopener = false
+        end
+
+        if should_not_include_noreferrer?
+          @should_add_noreferrrer = false
         end
       end
 
