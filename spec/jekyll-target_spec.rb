@@ -6,18 +6,18 @@ RSpec.describe(Jekyll::TargetBlank) do
   let(:config_overrides) { {} }
   let(:config_overrides) do
     {
-      "url"         => "https://keith-mifsud.me",
-      "collections" => { "docs" => { "output" => "true" } },
+        "url"         => "https://keith-mifsud.me",
+        "collections" => { "docs" => { "output" => "true" } },
     }
   end
   let(:configs) do
     Jekyll.configuration(config_overrides.merge(
-      {
-        "skip_config_files" => false,
-        "collections"       => { "docs" => { "output" => true } },
-        "source"            => fixtures_dir,
-        "destination"       => fixtures_dir("_site"),
-      }
+        {
+            "skip_config_files" => false,
+            "collections"       => { "docs" => { "output" => true } },
+            "source"            => fixtures_dir,
+            "destination"       => fixtures_dir("_site"),
+        }
     ))
   end
   let(:target_blank) { described_class }
@@ -149,10 +149,10 @@ RSpec.describe(Jekyll::TargetBlank) do
     let(:target_blank_css_class) { "ext-link" }
     let(:config_overrides) do
       {
-        "target-blank" => {
-          "css_class"       => target_blank_css_class,
-          "add_css_classes" => false,
-        },
+          "target-blank" => {
+              "css_class"       => target_blank_css_class,
+              "add_css_classes" => false,
+          },
       }
     end
 
@@ -214,7 +214,7 @@ RSpec.describe(Jekyll::TargetBlank) do
       {
           "target-blank" => {
               "add_css_classes" => false,
-              "noopener" => noopener
+              "noopener"        => noopener
           },
       }
     end
@@ -234,7 +234,7 @@ RSpec.describe(Jekyll::TargetBlank) do
       {
           "target-blank" => {
               "add_css_classes" => false,
-              "noreferrer" => noreferrer,
+              "noreferrer"      => noreferrer,
           },
       }
     end
@@ -249,7 +249,18 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   context "When both noopener and noreferrer values are set to false in config" do
+    let(:noopener) { false }
+    let(:noreferrer) { false }
+    let(:config_overrides) do
+      {
+          "target-blank" => {
+            "add_css_classes" => false,
+            "noopener"        => noopener,
+            "noreferrer"      => noreferrer,
+          }
+      }
 
+    end
   end
 
   private
