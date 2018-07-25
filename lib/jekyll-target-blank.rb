@@ -109,6 +109,7 @@ module Jekyll
         end
       end
 
+      # Private: Handles the default rel attribute values
       def add_default_rel_attributes?
         if should_not_include_noopener?
           @should_add_noopener = false
