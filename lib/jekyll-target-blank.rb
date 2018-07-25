@@ -130,7 +130,11 @@ module Jekyll
           rel = "noopener"
         end
 
-        link["rel"] = rel + " noreferrer"
+        if @should_add_noreferrrer
+          rel = rel + " noreferrer"
+        end
+
+        link["rel"] = rel
       end
 
       # Private: Checks if the link is a mailto url.

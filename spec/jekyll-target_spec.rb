@@ -233,7 +233,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     let(:config_overrides) do
       {
           "target-blank" => {
-              "add_css_classses" => false,
+              "add_css_classes" => false,
               "noreferrer" => noreferrer,
           },
       }
