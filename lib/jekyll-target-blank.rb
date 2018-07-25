@@ -134,7 +134,9 @@ module Jekyll
           rel = rel + " noreferrer"
         end
 
-        link["rel"] = rel
+        unless rel.empty?
+          link["rel"] = rel
+        end
       end
 
       # Private: Checks if the link is a mailto url.
