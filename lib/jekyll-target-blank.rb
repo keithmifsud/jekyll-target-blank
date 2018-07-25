@@ -22,6 +22,7 @@ module Jekyll
         @should_add_css_classes       = false
         @css_classes_to_add           = nil
         @should_add_noopener          = true
+        @should_add_noreferrrer       = true
 
         return unless content.output.include?("<a")
 
