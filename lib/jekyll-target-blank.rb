@@ -26,14 +26,11 @@ module Jekyll
 
         return unless content.output.include?("<a")
 
-        if css_class_name_specified_in_config?
-          @requires_specified_css_class = true
-          @required_css_class_name      = specified_class_name_from_config
-        end
+        requires_css_class_name
 
         if should_add_css_classes?
           @should_add_css_classes = true
-          @css_classes_to_add = css_classes_to_add_from_config.to_s
+          @css_classes_to_add     = css_classes_to_add_from_config.to_s
         end
 
         if should_not_include_noopener?
@@ -56,7 +53,7 @@ module Jekyll
       # doc - the document being processed.
       def document_processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
-          doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
+            doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
       end
 
       private
@@ -100,6 +97,13 @@ module Jekyll
             return false unless includes_specified_css_class?(link)
           end
           true
+        end
+      end
+
+      def requires_css_class_name
+        if css_class_name_specified_in_config?
+          @requires_specified_css_class = true
+          @required_css_class_name      = specified_class_name_from_config
         end
       end
 
