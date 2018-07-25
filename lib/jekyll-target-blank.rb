@@ -230,6 +230,25 @@ module Jekyll
           end
         end
       end
+
+      # Private: Determines if the noreferrer rel attribute value should be added
+      # based on the specified config values.
+      #
+      # Returns true if noreferrer is false in config.
+      def should_not_include_noreferrer?
+        config = @config["target-blank"]
+        case config
+        when nil, NilClass
+          false
+        else
+          noreferrer = config.fetch("noreferrer", true)
+          if noreferrer == false
+            return true
+          else
+            return false
+          end
+        end
+      end
     end
   end
 end
