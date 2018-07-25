@@ -100,6 +100,8 @@ module Jekyll
         end
       end
 
+      # Private: Handles adding the tagregt attribute of the config
+      # requires a specifies class.
       def requires_css_class_name
         if css_class_name_specified_in_config?
           @requires_specified_css_class = true
