@@ -264,6 +264,14 @@ RSpec.describe(Jekyll::TargetBlank) do
     it "should not include the rel attribute values" do
       expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>.'))
     end
+
+    it "should not include the rel attribute noopener value" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer">Google</a>.'))
+    end
+
+    it "should not include the rel attribute noreferrer value" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noopener">Google</a>.'))
+    end
   end
 
   private
