@@ -229,7 +229,15 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   context "When noreferrer is set to false in config" do
-    
+    let(:noreferrer) { false }
+    let(:config_overrides) do
+      {
+          "target-blank" => {
+              "add_css_classses" => false,
+              "noreferrer" => noreferrer,
+          },
+      }
+    end
   end
 
   private
