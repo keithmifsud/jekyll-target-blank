@@ -106,7 +106,8 @@ module Jekyll
         end
       end
 
-
+      # Private: Configures any additional CSS classes
+      # if needed.
       def configure_adding_additional_css_classes
         if should_add_css_classes?
           @should_add_css_classes = true
