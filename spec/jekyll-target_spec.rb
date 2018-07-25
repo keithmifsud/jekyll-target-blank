@@ -227,7 +227,11 @@ RSpec.describe(Jekyll::TargetBlank) do
       expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer">Google</a>.'))
     end
   end
-  
+
+  context "When noreferrer is set to false in config" do
+    
+  end
+
   private
 
   def post_with_layout_result
