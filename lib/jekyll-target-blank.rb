@@ -21,6 +21,7 @@ module Jekyll
         @required_css_class_name      = nil
         @should_add_css_classes       = false
         @css_classes_to_add           = nil
+        @should_add_noopener          = true
 
         return unless content.output.include?("<a")
 
@@ -32,6 +33,10 @@ module Jekyll
         if should_add_css_classes?
           @should_add_css_classes = true
           @css_classes_to_add = css_classes_to_add_from_config.to_s
+        end
+
+        if should_not_include_noopener?
+          @should_add_noopener = false
         end
 
         content.output = if content.output.include? BODY_START_TAG
@@ -115,7 +120,12 @@ module Jekyll
       #
       # link = Nokogiri node.
       def add_default_rel_attributes(link)
-        link["rel"] = "noopener noreferrer"
+        rel = ""
+        if @should_add_noopener
+          rel = "noopener"
+        end
+
+        link["rel"] = rel + " noreferrer"
       end
 
       # Private: Checks if the link is a mailto url.
@@ -200,6 +210,25 @@ module Jekyll
       def css_classes_to_add_from_config
         config = @config["target-blank"]
         config.fetch("add_css_classes")
+      end
+
+      # Private: Determines if the noopener rel attribute value should be added
+      # based on the specified config values.
+      #
+      # Returns true if noopener is false in config.
+      def should_not_include_noopener?
+        config = @config["target-blank"]
+        case config
+        when nil, NilClass
+          false
+        else
+          noopener = config.fetch("noopener", true)
+          if noopener == false
+            return true
+          else
+            return false
+          end
+        end
       end
     end
   end
