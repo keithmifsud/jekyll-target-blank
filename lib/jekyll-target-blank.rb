@@ -83,7 +83,7 @@ module Jekyll
         anchors.each do |item|
           if processable_link?(item)
             add_target_blank_attribute(item)
-            add_default_rel_attributes(item)
+            add_rel_attributes(item)
             add_css_classes_if_required(item)
           end
           next
@@ -121,10 +121,10 @@ module Jekyll
         link["target"] = "_blank"
       end
 
-      # Private: Adds the default rel attribute and values to the link.
+      # Private: Adds the rel attribute and values to the link.
       #
       # link = Nokogiri node.
-      def add_default_rel_attributes(link)
+      def add_rel_attributes(link)
         rel = ""
         if @should_add_noopener
           rel = "noopener"
