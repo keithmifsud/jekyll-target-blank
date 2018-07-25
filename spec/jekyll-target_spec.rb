@@ -209,11 +209,12 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   context "When noopener is set to false in config" do
+    let(:noopener) { false }
     let(:config_overrides) do
       {
           "target-blank" => {
               "add_css_classes" => false,
-              "noopener" => false
+              "noopener" => noopener
           },
       }
     end
@@ -226,7 +227,7 @@ RSpec.describe(Jekyll::TargetBlank) do
       expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer">Google</a>.'))
     end
   end
-
+  
   private
 
   def post_with_layout_result
