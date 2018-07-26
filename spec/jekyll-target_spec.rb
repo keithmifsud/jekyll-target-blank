@@ -257,7 +257,7 @@ RSpec.describe(Jekyll::TargetBlank) do
           "add_css_classes" => false,
           "noopener"        => noopener,
           "noreferrer"      => noreferrer,
-        }
+        },
       }
     end
 
