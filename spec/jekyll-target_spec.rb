@@ -289,6 +289,10 @@ RSpec.describe(Jekyll::TargetBlank) do
       }
     end
 
+    it "should add the extra rel attribute together with the default ones" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer nofollow">Google</a>.'))
+    end
+
   end
 
   private
