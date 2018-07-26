@@ -148,7 +148,7 @@ module Jekyll
         end
 
         if @should_add_noreferrrer
-          rel = rel + " noreferrer"
+          rel += " noreferrer"
         end
 
         unless rel.empty?
