@@ -21,18 +21,16 @@ module Jekyll
         @required_css_class_name      = nil
         @should_add_css_classes       = false
         @css_classes_to_add           = nil
+        @should_add_noopener          = true
+        @should_add_noreferrrer       = true
 
         return unless content.output.include?("<a")
 
-        if css_class_name_specified_in_config?
-          @requires_specified_css_class = true
-          @required_css_class_name      = specified_class_name_from_config
-        end
+        requires_css_class_name
 
-        if should_add_css_classes?
-          @should_add_css_classes = true
-          @css_classes_to_add = css_classes_to_add_from_config.to_s
-        end
+        configure_adding_additional_css_classes
+
+        add_default_rel_attributes?
 
         content.output = if content.output.include? BODY_START_TAG
                            process_html(content)
@@ -73,7 +71,7 @@ module Jekyll
         anchors.each do |item|
           if processable_link?(item)
             add_target_blank_attribute(item)
-            add_default_rel_attributes(item)
+            add_rel_attributes(item)
             add_css_classes_if_required(item)
           end
           next
@@ -90,6 +88,35 @@ module Jekyll
             return false unless includes_specified_css_class?(link)
           end
           true
+        end
+      end
+
+      # Private: Handles adding the target attribute of the config
+      # requires a specifies class.
+      def requires_css_class_name
+        if css_class_name_specified_in_config?
+          @requires_specified_css_class = true
+          @required_css_class_name      = specified_class_name_from_config
+        end
+      end
+
+      # Private: Configures any additional CSS classes
+      # if needed.
+      def configure_adding_additional_css_classes
+        if should_add_css_classes?
+          @should_add_css_classes = true
+          @css_classes_to_add     = css_classes_to_add_from_config.to_s
+        end
+      end
+
+      # Private: Handles the default rel attribute values
+      def add_default_rel_attributes?
+        if should_not_include_noopener?
+          @should_add_noopener = false
+        end
+
+        if should_not_include_noreferrer?
+          @should_add_noreferrrer = false
         end
       end
 
@@ -111,11 +138,22 @@ module Jekyll
         link["target"] = "_blank"
       end
 
-      # Private: Adds the default rel attribute and values to the link.
+      # Private: Adds the rel attribute and values to the link.
       #
       # link = Nokogiri node.
-      def add_default_rel_attributes(link)
-        link["rel"] = "noopener noreferrer"
+      def add_rel_attributes(link)
+        rel = ""
+        if @should_add_noopener
+          rel = "noopener"
+        end
+
+        if @should_add_noreferrrer
+          rel += " noreferrer"
+        end
+
+        unless rel.empty?
+          link["rel"] = rel
+        end
       end
 
       # Private: Checks if the link is a mailto url.
@@ -200,6 +238,44 @@ module Jekyll
       def css_classes_to_add_from_config
         config = @config["target-blank"]
         config.fetch("add_css_classes")
+      end
+
+      # Private: Determines if the noopener rel attribute value should be added
+      # based on the specified config values.
+      #
+      # Returns true if noopener is false in config.
+      def should_not_include_noopener?
+        config = @config["target-blank"]
+        case config
+        when nil, NilClass
+          false
+        else
+          noopener = config.fetch("noopener", true)
+          if noopener == false
+            return true
+          else
+            return false
+          end
+        end
+      end
+
+      # Private: Determines if the noreferrer rel attribute value should be added
+      # based on the specified config values.
+      #
+      # Returns true if noreferrer is false in config.
+      def should_not_include_noreferrer?
+        config = @config["target-blank"]
+        case config
+        when nil, NilClass
+          false
+        else
+          noreferrer = config.fetch("noreferrer", true)
+          if noreferrer == false
+            return true
+          else
+            return false
+          end
+        end
       end
     end
   end

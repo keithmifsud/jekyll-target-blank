@@ -208,6 +208,76 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
   end
 
+  context "When noopener is set to false in config" do
+    let(:noopener) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+        },
+      }
+    end
+
+    it "should not add noopener value to the rel attribute" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>.'))
+    end
+
+    it "should still add noreferrer value to the rel attribute" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer">Google</a>.'))
+    end
+  end
+
+  context "When noreferrer is set to false in config" do
+    let(:noreferrer) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noreferrer"      => noreferrer,
+        },
+      }
+    end
+
+    it "should not add noreferrer value to the rel attribute" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>.'))
+    end
+
+    it "should still add noopener value to the rel attribute" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener">Google</a>.'))
+    end
+  end
+
+  context "When both noopener and noreferrer values are set to false in config" do
+    let(:noopener) { false }
+    let(:noreferrer) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "noreferrer"      => noreferrer,
+        },
+      }
+    end
+
+    it "should not include the rel attribute values" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>.'))
+    end
+
+    it "should not include the rel attribute noopener value" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer">Google</a>.'))
+    end
+
+    it "should not include the rel attribute noreferrer value" do
+      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noopener">Google</a>.'))
+    end
+
+    it "should not include any rel attributes" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank">Google</a>.'))
+    end
+  end
+
   private
 
   def post_with_layout_result
