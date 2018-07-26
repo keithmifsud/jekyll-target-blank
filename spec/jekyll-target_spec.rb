@@ -12,12 +12,12 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
   let(:configs) do
     Jekyll.configuration(config_overrides.merge(
-        {
-            "skip_config_files" => false,
-            "collections"       => { "docs" => { "output" => true } },
-            "source"            => fixtures_dir,
-            "destination"       => fixtures_dir("_site"),
-        }
+      {
+        "skip_config_files" => false,
+        "collections"       => { "docs" => { "output" => true } },
+        "source"            => fixtures_dir,
+        "destination"       => fixtures_dir("_site"),
+      }
     ))
   end
   let(:target_blank) { described_class }
