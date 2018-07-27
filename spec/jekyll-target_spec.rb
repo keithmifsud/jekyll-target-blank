@@ -310,6 +310,20 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
   end
 
+  context "When one extra rel attribute value are set in config and noopener is set to false" do
+    let(:rel_attribute) { "nofollow" }
+    let(:noopener) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
+  end
+
   private
 
   def post_with_layout_result
