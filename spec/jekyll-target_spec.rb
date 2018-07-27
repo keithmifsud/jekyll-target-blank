@@ -224,7 +224,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
 
     it "should still add noreferrer value to the rel attribute" do
-      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer">Google</a>.'))
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer">Google</a>.'))
     end
   end
 
