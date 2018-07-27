@@ -300,7 +300,7 @@ RSpec.describe(Jekyll::TargetBlank) do
       {
         "target-blank" => {
           "add_css_classes" => false,
-          "rel" => rel_attribute
+          "rel" => rel_attribute,
         },
       }
     end
