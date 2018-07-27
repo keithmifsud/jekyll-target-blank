@@ -161,7 +161,10 @@ module Jekyll
         end
 
         if @should_add_noreferrrer
-          rel += " noreferrer"
+          unless rel.empty?
+            rel += " "
+          end
+          rel += "noreferrer"
         end
 
         if @should_add_extra_rel_attribute_values
