@@ -295,7 +295,15 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   context "When more than one additional rel attributes are added in config" do
-    
+    let(:rel_attribute) { "nofollow tag" }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "rel" => rel_attribute
+        },
+      }
+    end
   end
 
   private
