@@ -328,6 +328,9 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
   end
 
+  context "When more than one extra rel attribute values are set in config and noopener is set to false" do
+
+  end
   private
 
   def post_with_layout_result
