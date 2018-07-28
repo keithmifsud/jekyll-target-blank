@@ -279,7 +279,7 @@ module Jekyll
       # Private: Gets the CSS classes to be added to the link from
       # config.
       def css_classes_to_add_from_config
-        config = @config["target-blank"]
+        config = @target_blank_config
         config.fetch("add_css_classes")
       end
 
