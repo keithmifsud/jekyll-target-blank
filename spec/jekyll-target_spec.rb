@@ -349,7 +349,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   context "When one extra rel attributes is set in config and both noopener and noreferer are set to false" do
     let(:rel_attribute) { "nofollow" }
     let(:noopener) { false }
-    let(:noreferrer) {false }
+    let(:noreferrer) { false }
     let(:config_overrides) do
       {
         "target-blank" => {
@@ -369,7 +369,7 @@ RSpec.describe(Jekyll::TargetBlank) do
   context "When more than one extra rel attribute values are set in config and both noopener and noreferer are set to false" do
     let(:rel_attribute) { "nofollow tag" }
     let(:noopener) { false }
-    let(:noreferrer) {false }
+    let(:noreferrer) { false }
     let(:config_overrides) do
       {
         "target-blank" => {
@@ -416,13 +416,12 @@ RSpec.describe(Jekyll::TargetBlank) do
         },
       }
     end
-    
+
     it "should still include the noopener rel attribute value along the extra one" do
       expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer noopener nofollow">Google</a>.'))
     end
 
   end
-
 
 
   private
