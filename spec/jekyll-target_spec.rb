@@ -367,7 +367,19 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   context "When more than one extra rel attribute values are set in config and both noopener and noreferer are set to false" do
-
+    let(:rel_attribute) { "nofollow tag" }
+    let(:noopener) { false }
+    let(:noreferrer) {false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "noreferrer"      => noreferrer,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
   end
 
   private
