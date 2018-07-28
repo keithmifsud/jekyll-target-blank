@@ -248,7 +248,7 @@ module Jekyll
 
       # Private: Checks if it should add additional CSS classes.
       def should_add_css_classes?
-        config = @config["target-blank"]
+        config = @target_blank_config
         case config
         when nil, NilClass
           false
