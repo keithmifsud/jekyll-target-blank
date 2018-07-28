@@ -307,7 +307,7 @@ module Jekyll
       #
       # Returns true if noreferrer is false in config.
       def should_not_include_noreferrer?
-        config = @config["target-blank"]
+        config = @target_blank_config
         case config
         when nil, NilClass
           false
