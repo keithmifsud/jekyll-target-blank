@@ -224,7 +224,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
 
     it "should still add noreferrer value to the rel attribute" do
-      expect(post_with_external_markdown_link.output).to_not include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer">Google</a>.'))
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer">Google</a>.'))
     end
   end
 
@@ -275,6 +275,150 @@ RSpec.describe(Jekyll::TargetBlank) do
 
     it "should not include any rel attributes" do
       expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank">Google</a>.'))
+    end
+  end
+
+  context "When one additional rel attribute is added in config" do
+    let(:rel_attribute) { "nofollow" }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
+
+    it "should add the extra rel attribute together with the default ones" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer nofollow">Google</a>.'))
+    end
+  end
+
+  context "When more than one additional rel attributes are added in config" do
+    let(:rel_attribute) { "nofollow tag" }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
+
+    it "should add the extra rel attributes together with the default ones" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noopener noreferrer nofollow tag">Google</a>.'))
+    end
+  end
+
+  context "When one extra rel attribute value are set in config and noopener is set to false" do
+    let(:rel_attribute) { "nofollow" }
+    let(:noopener) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
+
+    it "should the extra rel attribute value and not add the default noopener value" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer nofollow">Google</a>.'))
+    end
+  end
+
+  context "When more than one extra rel attribute values are set in config and noopener is set to false" do
+    let(:rel_attribute) { "nofollow tag" }
+    let(:noopener) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
+
+    it "should the extra rel attribute values and not add the default noopener value" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer nofollow tag">Google</a>.'))
+    end
+  end
+
+  context "When one extra rel attributes is set in config and both noopener and noreferer are set to false" do
+    let(:rel_attribute) { "nofollow" }
+    let(:noopener) { false }
+    let(:noreferrer) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "noreferrer"      => noreferrer,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
+
+    it "should add the extra rel attribute value and no default ones" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="nofollow">Google</a>.'))
+    end
+  end
+
+  context "When more than one extra rel attribute values are set in config and both noopener and noreferer are set to false" do
+    let(:rel_attribute) { "nofollow tag" }
+    let(:noopener) { false }
+    let(:noreferrer) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "noreferrer"      => noreferrer,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
+
+    it "should add the extra rel attribute values and no default ones" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="nofollow tag">Google</a>.'))
+    end
+  end
+
+  context "When noopener is set to false in config but added to the rel config property" do
+    let(:rel_attribute) { "noopener" }
+    let(:noopener) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
+
+    it "should still include the noopener rel attribute value" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer noopener">Google</a>.'))
+    end
+  end
+
+  context "When noopener is set to false in config but added t0 the rel config property alongside one more extra rel attribute value." do
+    let(:rel_attribute) { "noopener nofollow" }
+    let(:noopener) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
+
+    it "should still include the noopener rel attribute value along the extra one" do
+      expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer noopener nofollow">Google</a>.'))
     end
   end
 

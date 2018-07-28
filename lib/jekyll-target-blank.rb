@@ -15,14 +15,16 @@ module Jekyll
       #
       # content - the document or page to be processes.
       def process(content)
-        @site_url                     = content.site.config["url"]
-        @config                       = content.site.config
-        @requires_specified_css_class = false
-        @required_css_class_name      = nil
-        @should_add_css_classes       = false
-        @css_classes_to_add           = nil
-        @should_add_noopener          = true
-        @should_add_noreferrrer       = true
+        @site_url                              = content.site.config["url"]
+        @config                                = content.site.config
+        @requires_specified_css_class          = false
+        @required_css_class_name               = nil
+        @should_add_css_classes                = false
+        @css_classes_to_add                    = nil
+        @should_add_noopener                   = true
+        @should_add_noreferrrer                = true
+        @should_add_extra_rel_attribute_values = false
+        @extra_rel_attribute_values            = nil
 
         return unless content.output.include?("<a")
 
@@ -31,6 +33,8 @@ module Jekyll
         configure_adding_additional_css_classes
 
         add_default_rel_attributes?
+
+        add_extra_rel_attributes?
 
         content.output = if content.output.include? BODY_START_TAG
                            process_html(content)
@@ -120,6 +124,15 @@ module Jekyll
         end
       end
 
+      # Private: Sets any extra rel attribute values
+      # if required.
+      def add_extra_rel_attributes?
+        if should_add_extra_rel_attribute_values?
+          @should_add_extra_rel_attribute_values = true
+          @extra_rel_attribute_values            = extra_rel_attribute_values_to_add
+        end
+      end
+
       # Private: adds the cs classes if set in config.
       #
       # link = Nokogiri node.
@@ -148,7 +161,17 @@ module Jekyll
         end
 
         if @should_add_noreferrrer
-          rel += " noreferrer"
+          unless rel.empty?
+            rel += " "
+          end
+          rel += "noreferrer"
+        end
+
+        if @should_add_extra_rel_attribute_values
+          unless rel.empty?
+            rel += " "
+          end
+          rel += @extra_rel_attribute_values
         end
 
         unless rel.empty?
@@ -231,6 +254,25 @@ module Jekyll
         else
           config.fetch("add_css_classes", false)
         end
+      end
+
+      # Private: Checks if any addional rel attribute values
+      # should be added.
+      def should_add_extra_rel_attribute_values?
+        config = @config["target-blank"]
+        case config
+        when nil, NilClass
+          false
+        else
+          config.fetch("rel", false)
+        end
+      end
+
+      # Private: Gets any additional rel attribute values
+      # values to add from config.
+      def extra_rel_attribute_values_to_add
+        config = @config["target-blank"]
+        config.fetch("rel")
       end
 
       # Private: Gets the CSS classes to be added to the link from
