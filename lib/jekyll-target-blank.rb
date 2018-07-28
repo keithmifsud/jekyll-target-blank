@@ -17,6 +17,7 @@ module Jekyll
       def process(content)
         @site_url                              = content.site.config["url"]
         @config                                = content.site.config
+        @target_blank_config                   = get_class_config
         @requires_specified_css_class          = false
         @required_css_class_name               = nil
         @should_add_css_classes                = false
@@ -318,6 +319,12 @@ module Jekyll
             return false
           end
         end
+      end
+
+      # Private: Gets the relative config values
+      # if they exist.
+      def get_class_config
+        @target_blank_config = @config.fetch("target-blank", nil)
       end
     end
   end
