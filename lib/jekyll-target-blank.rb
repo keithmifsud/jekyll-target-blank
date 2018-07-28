@@ -242,7 +242,7 @@ module Jekyll
       # Private: Fetches the specified css class name
       # from config.
       def specified_class_name_from_config
-        target_blank_config = @config["target-blank"]
+        target_blank_config = @target_blank_config
         target_blank_config.fetch("css_class")
       end
 
