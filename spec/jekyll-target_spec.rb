@@ -386,7 +386,7 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
   end
 
-  context "When noopener is set to false in config but added t the rel config property" do
+  context "When noopener is set to false in config but added to the rel config property" do
     let(:rel_attribute) { "noopener" }
     let(:noopener) { false }
     let(:config_overrides) do
@@ -403,6 +403,12 @@ RSpec.describe(Jekyll::TargetBlank) do
       expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer noopener">Google</a>.'))
     end
   end
+
+  context "When noopener is set to false in config but added t0 the rel config property alongside one more extra rel attribute value." do
+    
+  end
+
+
 
   private
 
