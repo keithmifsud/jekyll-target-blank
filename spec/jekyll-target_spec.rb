@@ -345,6 +345,11 @@ RSpec.describe(Jekyll::TargetBlank) do
       expect(post_with_external_markdown_link.output).to include(para('Link to <a href="https://google.com" target="_blank" rel="noreferrer nofollow tag">Google</a>.'))
     end
   end
+
+  context "When one extra rel attributes is set in config and both noopener and noreferer are set to false" do
+
+  end
+
   private
 
   def post_with_layout_result
