@@ -117,6 +117,40 @@ target-blank:
     noreferrer: false
 ```
 
+#### Adding additional rel attribute values
+
+You can add additional `rel=""` attribute values by simply specifying them in your site's `_config.yml` file.
+
+```yaml
+target-blank:
+    rel: nofollow
+```
+
+or even more than one extra:
+
+```yaml
+target-blank:
+    rel: nofollow
+```
+
+__Note:__
+
+
+The `rel` setting overrides other default `rel` attribute values. So, (for example), if you exclude the `noopener` value and then add it to the `rel` property, it will still be added. The following `config`:
+
+```yaml
+target-blank:
+    noopener: false
+    rel: noopener
+```
+
+will output:
+
+```html
+<a href"https://some-external-website.what" target="_blank" rel="noreferrer noopener">Some link</a>
+```
+
+
 ## Support
 
 Simply [create an issue](https://github.com/keithmifsud/jekyll-target-blank/issues/new) and I will respond as soon as possible.
