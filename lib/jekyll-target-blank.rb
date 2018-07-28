@@ -288,7 +288,7 @@ module Jekyll
       #
       # Returns true if noopener is false in config.
       def should_not_include_noopener?
-        config = @config["target-blank"]
+        config = @target_blank_config
         case config
         when nil, NilClass
           false
