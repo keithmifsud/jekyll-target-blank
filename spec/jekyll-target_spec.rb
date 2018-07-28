@@ -386,6 +386,10 @@ RSpec.describe(Jekyll::TargetBlank) do
     end
   end
 
+  context "When noopener is set to false in config but added t the rel config property" do
+    
+  end
+
   private
 
   def post_with_layout_result
