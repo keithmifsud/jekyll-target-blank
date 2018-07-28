@@ -387,7 +387,17 @@ RSpec.describe(Jekyll::TargetBlank) do
   end
 
   context "When noopener is set to false in config but added t the rel config property" do
-    
+    let(:rel_attribute) { "noopener" }
+    let(:noopener) { false }
+    let(:config_overrides) do
+      {
+        "target-blank" => {
+          "add_css_classes" => false,
+          "noopener"        => noopener,
+          "rel"             => rel_attribute,
+        },
+      }
+    end
   end
 
   private
