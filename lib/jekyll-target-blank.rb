@@ -272,7 +272,7 @@ module Jekyll
       # Private: Gets any additional rel attribute values
       # values to add from config.
       def extra_rel_attribute_values_to_add
-        config = @config["target-blank"]
+        config =@target_blank_config
         config.fetch("rel")
       end
 
