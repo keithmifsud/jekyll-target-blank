@@ -260,7 +260,7 @@ module Jekyll
       # Private: Checks if any addional rel attribute values
       # should be added.
       def should_add_extra_rel_attribute_values?
-        config = @config["target-blank"]
+        config = @target_blank_config
         case config
         when nil, NilClass
           false
