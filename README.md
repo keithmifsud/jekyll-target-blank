@@ -91,7 +91,7 @@ You can add one or more __space__ separated CSS classes in `_config.yml` like so
      add_css_classes: css-class-one css-class-two
  ```
  
- ####' Override the default rel attributes
+ #### Override the default rel attributes
  
  For security reasons, the default behaviour adds `rel="noopener noreferrer"` to all the processed external links. You can override adding any of the `noopener` and `noreferrer` values with the following entries in your site's `_config.yml` file. 
   
@@ -117,7 +117,6 @@ target-blank:
     noreferrer: false
 ```
 
- 
 ## Support
 
 Simply [create an issue](https://github.com/keithmifsud/jekyll-target-blank/issues/new) and I will respond as soon as possible.
