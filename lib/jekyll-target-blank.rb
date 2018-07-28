@@ -48,7 +48,7 @@ module Jekyll
       # doc - the document being processed.
       def document_processable?(doc)
         (doc.is_a?(Jekyll::Page) || doc.write?) &&
-            doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
+          doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
       end
 
       private
@@ -129,7 +129,7 @@ module Jekyll
       def add_extra_rel_attributes?
         if should_add_extra_rel_attribute_values?
           @should_add_extra_rel_attribute_values = true
-          @extra_rel_attribute_values = extra_rel_attribute_values_to_add
+          @extra_rel_attribute_values            = extra_rel_attribute_values_to_add
         end
       end
 
