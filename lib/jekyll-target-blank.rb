@@ -199,7 +199,7 @@ module Jekyll
 
       # Private: Checks if a css class name is specified in config
       def css_class_name_specified_in_config?
-        target_blank_config = @config["target-blank"]
+        target_blank_config = @target_blank_config
         case target_blank_config
         when nil, NilClass
           false
