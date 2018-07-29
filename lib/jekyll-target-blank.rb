@@ -18,6 +18,8 @@ module Jekyll
         @site_url                              = content.site.config["url"]
         @config                                = content.site.config
         @target_blank_config                   = class_config
+        @requires_specified_css_class          = false
+        @required_css_class_name               = nil
         @should_add_css_classes                = false
         @css_classes_to_add                    = nil
         @should_add_noopener                   = true
@@ -27,13 +29,7 @@ module Jekyll
 
         return unless content.output.include?("<a")
 
-        requires_css_class_name
-
-        configure_adding_additional_css_classes
-
-        add_default_rel_attributes?
-
-        add_extra_rel_attributes?
+        initialise
 
         content.output = if content.output.include? BODY_START_TAG
                            process_html(content)
@@ -51,6 +47,13 @@ module Jekyll
       end
 
       private
+
+      def initialise
+        requires_css_class_name
+        configure_adding_additional_css_classes
+        add_default_rel_attributes?
+        add_extra_rel_attributes?
+      end
 
       # Private: Processes html content which has a body opening tag.
       #
