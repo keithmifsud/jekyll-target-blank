@@ -18,8 +18,6 @@ module Jekyll
         @site_url                              = content.site.config["url"]
         @config                                = content.site.config
         @target_blank_config                   = class_config
-        @requires_specified_css_class          = false
-        @required_css_class_name               = nil
         @should_add_css_classes                = false
         @css_classes_to_add                    = nil
         @should_add_noopener                   = true
