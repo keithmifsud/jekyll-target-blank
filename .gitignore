@@ -2,3 +2,4 @@
 /*.gem
 Gemfile.lock
 dev_notes.md
+.vscode
