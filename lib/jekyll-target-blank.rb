@@ -17,6 +17,7 @@ module Jekyll
       def process(content)
         @site_url                              = content.site.config["url"]
         @config                                = content.site.config
+        @target_blank_config                   = class_config
         @requires_specified_css_class          = false
         @required_css_class_name               = nil
         @should_add_css_classes                = false
@@ -28,13 +29,7 @@ module Jekyll
 
         return unless content.output.include?("<a")
 
-        requires_css_class_name
-
-        configure_adding_additional_css_classes
-
-        add_default_rel_attributes?
-
-        add_extra_rel_attributes?
+        initialise
 
         content.output = if content.output.include? BODY_START_TAG
                            process_html(content)
@@ -52,6 +47,13 @@ module Jekyll
       end
 
       private
+
+      def initialise
+        requires_css_class_name
+        configure_adding_additional_css_classes
+        add_default_rel_attributes?
+        add_extra_rel_attributes?
+      end
 
       # Private: Processes html content which has a body opening tag.
       #
@@ -198,7 +200,7 @@ module Jekyll
 
       # Private: Checks if a css class name is specified in config
       def css_class_name_specified_in_config?
-        target_blank_config = @config["target-blank"]
+        target_blank_config = @target_blank_config
         case target_blank_config
         when nil, NilClass
           false
@@ -241,13 +243,13 @@ module Jekyll
       # Private: Fetches the specified css class name
       # from config.
       def specified_class_name_from_config
-        target_blank_config = @config["target-blank"]
+        target_blank_config = @target_blank_config
         target_blank_config.fetch("css_class")
       end
 
       # Private: Checks if it should add additional CSS classes.
       def should_add_css_classes?
-        config = @config["target-blank"]
+        config = @target_blank_config
         case config
         when nil, NilClass
           false
@@ -259,7 +261,7 @@ module Jekyll
       # Private: Checks if any addional rel attribute values
       # should be added.
       def should_add_extra_rel_attribute_values?
-        config = @config["target-blank"]
+        config = @target_blank_config
         case config
         when nil, NilClass
           false
@@ -271,14 +273,14 @@ module Jekyll
       # Private: Gets any additional rel attribute values
       # values to add from config.
       def extra_rel_attribute_values_to_add
-        config = @config["target-blank"]
+        config = @target_blank_config
         config.fetch("rel")
       end
 
       # Private: Gets the CSS classes to be added to the link from
       # config.
       def css_classes_to_add_from_config
-        config = @config["target-blank"]
+        config = @target_blank_config
         config.fetch("add_css_classes")
       end
 
@@ -287,7 +289,7 @@ module Jekyll
       #
       # Returns true if noopener is false in config.
       def should_not_include_noopener?
-        config = @config["target-blank"]
+        config = @target_blank_config
         case config
         when nil, NilClass
           false
@@ -306,7 +308,7 @@ module Jekyll
       #
       # Returns true if noreferrer is false in config.
       def should_not_include_noreferrer?
-        config = @config["target-blank"]
+        config = @target_blank_config
         case config
         when nil, NilClass
           false
@@ -318,6 +320,12 @@ module Jekyll
             return false
           end
         end
+      end
+
+      # Private: Gets the relative config values
+      # if they exist.
+      def class_config
+        @target_blank_config = @config.fetch("target-blank", nil)
       end
     end
   end
