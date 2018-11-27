@@ -15,8 +15,8 @@ RSpec.describe(Jekyll::TargetBlank) do
       {
         "skip_config_files" => false,
         "collections"       => { "docs" => { "output" => true } },
-        "source"            => fixtures_dir,
-        "destination"       => fixtures_dir("_site"),
+        "source"            => unit_fixtures_dir,
+        "destination"       => unit_fixtures_dir("_site"),
       }
     ))
   end

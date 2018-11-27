@@ -3,9 +3,9 @@
 require File.expand_path("../lib/jekyll-target-blank.rb", __dir__)
 
 RSpec.configure do |config|
-  FIXTURES_DIR = File.expand_path("fixtures", __dir__)
-  def fixtures_dir(*paths)
-    File.join(FIXTURES_DIR, *paths)
+  UNIT_FIXTURES_DIR = File.expand_path("fixtures/unit", __dir__)
+  def unit_fixtures_dir(*paths)
+    File.join(UNIT_FIXTURES_DIR, *paths)
   end
 
   def find_by_title(docs, title)
