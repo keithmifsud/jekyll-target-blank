@@ -7,7 +7,7 @@ require "uri"
 module Jekyll
   class TargetBlank
     BODY_START_TAG         = "<body"
-    OPENING_BODY_TAG_REGEX = %r!<body(.*?)>\s*!
+    OPENING_BODY_TAG_REGEX = %r!<body(.*)>\s*!
 
     class << self
       # Public: Processes the content and updated the external links
