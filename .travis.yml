@@ -1,25 +1,14 @@
 language: ruby
 rvm:
-- 2.5
-- 2.4
-- 2.3
+  - 2.6
+  - 2.5
+  - 2.4
 before_install:
-- gem update --system
-- gem install bundler
+  - gem update --system
+  - gem install bundler
 script: scripts/cibuild
 sudo: false
 cache: bundler
 env:
   global:
-  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-notifications:
-  irc:
-    on_success: change
-    on_failure: change
-    channels:
-    - irc.freenode.org#jekyll
-    template:
-    - '%{repository}#%{build_number} (%{branch}) %{message} %{build_url}'
-  email:
-    on_success: never
-    on_failure: never
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
