@@ -3,5 +3,4 @@
 set -e
 
 scripts/test
-scripts/quality
 bundle exec rake build
