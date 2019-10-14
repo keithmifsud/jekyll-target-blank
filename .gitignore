@@ -3,3 +3,5 @@
 Gemfile.lock
 dev_notes.md
 .vscode
+pkg
+spec/fixtures/unit/.jekyll-cache
