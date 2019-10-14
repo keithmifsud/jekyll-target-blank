@@ -1,12 +1,11 @@
 language: ruby
 rvm:
-- 2.6
 - 2.5
 - 2.4
+- 2.3
 before_install:
 - gem update --system
 - gem install bundler
-- bundle install
 script: scripts/cibuild
 sudo: false
 cache: bundler
