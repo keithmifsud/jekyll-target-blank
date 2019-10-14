@@ -192,7 +192,9 @@ module Jekyll
       #
       # link - a url.
       def external?(link)
-        URI.parse(link).host != URI.parse(@site_url).host if link =~ URI.regexp(%w(http https))
+        if link&.match?(URI.regexp(%w(http https)))
+          URI.parse(link).host != URI.parse(@site_url).host
+        end
       end
 
       # Private: Checks if a css class name is specified in config
