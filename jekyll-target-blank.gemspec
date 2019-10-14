@@ -16,11 +16,9 @@ Gem::Specification.new do |spec|
   spec.files = `git ls-files -z`.split("\x0")
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 2.3.0"
-
-  spec.add_dependency "jekyll", "~> 3.0"
-  spec.add_dependency "nokogiri", "~> 1.10.4"
-
-  spec.add_development_dependency "bundler", "~> 2.0"
+  spec.add_dependency "jekyll", ">= 3.0", "<5.0"
+  spec.add_dependency "nokogiri", "~> 1.10"
+  spec.add_development_dependency "bundler", "~> 2.0.0"
   spec.add_development_dependency "rake", "~> 12.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rubocop", "0.55"
