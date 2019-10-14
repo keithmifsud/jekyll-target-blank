@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require File.expand_path("../lib/jekyll-target-blank.rb", __dir__)
+require File.expand_path('../lib/jekyll-target-blank.rb', __dir__)
 
 RSpec.configure do |config|
-  UNIT_FIXTURES_DIR = File.expand_path("fixtures/unit", __dir__)
+  UNIT_FIXTURES_DIR = File.expand_path('fixtures/unit', __dir__)
 
-  INTEGRATION_FIXTURES_DIR = File.expand_path("fixtures/integration", __dir__)
+  INTEGRATION_FIXTURES_DIR = File.expand_path('fixtures/integration', __dir__)
 
   def unit_fixtures_dir(*paths)
     File.join(UNIT_FIXTURES_DIR, *paths)
@@ -16,7 +16,7 @@ RSpec.configure do |config|
   end
 
   def find_by_title(docs, title)
-    docs.find { |d| d.data["title"] == title }
+    docs.find { |d| d.data['title'] == title }
   end
 
   # rspec-expectations config goes here. You can use an alternate

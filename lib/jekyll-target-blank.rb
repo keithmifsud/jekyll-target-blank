@@ -7,7 +7,7 @@ require "uri"
 module Jekyll
   class TargetBlank
     BODY_START_TAG         = "<body"
-    OPENING_BODY_TAG_REGEX = %r!<body([^<>]*)>\s*!
+    OPENING_BODY_TAG_REGEX = %r!<body([^<>]*)>\s*!.freeze
 
     class << self
       # Public: Processes the content and updated the external links
@@ -117,13 +117,9 @@ module Jekyll
 
       # Private: Handles the default rel attribute values
       def add_default_rel_attributes?
-        if should_not_include_noopener?
-          @should_add_noopener = false
-        end
+        @should_add_noopener = false if should_not_include_noopener?
 
-        if should_not_include_noreferrer?
-          @should_add_noreferrrer = false
-        end
+        @should_add_noreferrrer = false if should_not_include_noreferrer?
       end
 
       # Private: Sets any extra rel attribute values
@@ -142,7 +138,7 @@ module Jekyll
         if @should_add_css_classes
           existing_classes = get_existing_css_classes(link)
           existing_classes = " " + existing_classes unless existing_classes.to_s.empty?
-          link["class"]    = @css_classes_to_add + existing_classes
+          link["class"] = @css_classes_to_add + existing_classes
         end
       end
 
@@ -158,27 +154,30 @@ module Jekyll
       # link = Nokogiri node.
       def add_rel_attributes(link)
         rel = ""
-        if @should_add_noopener
-          rel = "noopener"
-        end
+        rel = add_noopener_to_rel(rel)
 
         if @should_add_noreferrrer
-          unless rel.empty?
-            rel += " "
-          end
+          rel += " " unless rel.empty?
           rel += "noreferrer"
         end
 
         if @should_add_extra_rel_attribute_values
-          unless rel.empty?
-            rel += " "
-          end
+          rel += " " unless rel.empty?
           rel += @extra_rel_attribute_values
         end
 
-        unless rel.empty?
-          link["rel"] = rel
+        link["rel"] = rel unless rel.empty?
+      end
+
+      # Private: Adds noopener attribute.
+      #
+      # rel = string
+      def add_noopener_to_rel(rel)
+        if @should_add_noopener
+          rel += " " unless rel.empty?
+          rel += "noopener"
         end
+        rel
       end
 
       # Private: Checks if the link is a mailto url.
@@ -193,9 +192,7 @@ module Jekyll
       #
       # link - a url.
       def external?(link)
-        if link =~ URI.regexp(%w(http https))
-          URI.parse(link).host != URI.parse(@site_url).host
-        end
+        URI.parse(link).host != URI.parse(@site_url).host if link =~ URI.regexp(%w(http https))
       end
 
       # Private: Checks if a css class name is specified in config
@@ -332,6 +329,6 @@ module Jekyll
 end
 
 # Hooks into Jekyll's post_render event.
-Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
+Jekyll::Hooks.register [:pages, :documents], :post_render do |doc|
   Jekyll::TargetBlank.process(doc) if Jekyll::TargetBlank.document_processable?(doc)
 end
