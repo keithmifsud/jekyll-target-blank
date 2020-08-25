@@ -113,7 +113,7 @@ target-blank:
     noreferrer: false
 ```
 
-__To exclude both `noopner` and `noreferrer` values:__
+__To exclude both `noopener` and `noreferrer` values:__
  
  ```yaml
 target-blank:
