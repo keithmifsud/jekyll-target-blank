@@ -52,6 +52,8 @@ RSpec.describe(Jekyll::TargetBlank) do
 
   let(:post_with_external_link_containing_the_specified_css_class_and_other_css_classes) { find_by_title(posts, 'Post with external link containing the specified css class and other css classes') }
 
+  let(:post_with_unicode_link) { find_by_title(posts, 'Post with unicode link') }
+
   # define common wrappers.
   def para(content)
     "<p>#{content}</p>"
@@ -140,6 +142,10 @@ RSpec.describe(Jekyll::TargetBlank) do
 
     it 'should ignore mailto links' do
       expect(post_with_mailto_link.output).to include(para('This is a <a href="mailto:mifsud.k@gmail.com?Subject=Just%20an%20email">mailto link</a>.'))
+    end
+
+    it 'should process unicode links' do
+      expect(post_with_unicode_link.output).to include(para('This is a <a href="https://h%C3%A1%C4%8Dky%C4%8D%C3%A1rky.cz" target="_blank" rel="noopener noreferrer">unicode link</a>.'))
     end
   end
 
