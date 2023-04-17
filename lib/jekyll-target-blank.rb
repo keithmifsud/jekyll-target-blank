@@ -192,8 +192,13 @@ module Jekyll
       #
       # link - a url.
       def external?(link)
-        if link&.match?(URI.regexp(%w(http https)))
-          URI.parse(link).host != URI.parse(@site_url).host
+        begin
+          if link&.match?(URI.regexp(%w(http https)))
+            URI.parse(link).host != URI.parse(@site_url).host
+          end
+        rescue URI::InvalidURIError
+           # don't do anything if you can't parse the link
+          return false
         end
       end
 
