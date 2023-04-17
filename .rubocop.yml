@@ -1,12 +1,11 @@
-inherit_gem:
-  jekyll: .rubocop.yml
+
 
 AllCops:
   TargetRubyVersion: 2.6
   Exclude:
     - vendor/**/*
 
-Metrics/LineLength:
+Layout/LineLength:
   Exclude:
     - spec/**/*
     - jekyll-target-blank.gemspec
