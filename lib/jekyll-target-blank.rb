@@ -153,7 +153,7 @@ module Jekyll
       #
       # link = Nokogiri node.
       def add_rel_attributes(link)
-        rel = ""
+        rel = link["rel"] || ""
         rel = add_noopener_to_rel(rel)
 
         if @should_add_noreferrrer
