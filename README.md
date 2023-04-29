@@ -134,7 +134,7 @@ or even more than one extra:
 
 ```yaml
 target-blank:
-    rel: nofollow
+    rel: nofollow canonical
 ```
 
 __Note:__
